@@ -64,7 +64,7 @@ export const metadata: Metadata = {
     },
   },
   verification: {
-    google: "GOOGLE_SEARCH_CONSOLE_VERIFICATION_ID",
+    google: "m8GlcWW56jbrY438cEneNp0L7mvnjYJO28V5pSDF5AM",
     other: {
       "msvalidate.01": "BING_WEBMASTER_VERIFICATION_ID",
     },
