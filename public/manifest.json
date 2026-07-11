@@ -1,0 +1,39 @@
+{
+  "name": "SpeedMaths PWA Training Platform",
+  "short_name": "SpeedMaths",
+  "description": "Premium mental calculations speed training platform.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#6366f1",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "https://img.icons8.com/color/192/brain.png",
+      "type": "image/png",
+      "sizes": "192x192"
+    },
+    {
+      "src": "https://img.icons8.com/color/512/brain.png",
+      "type": "image/png",
+      "sizes": "512x512"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Learn Workspace",
+      "url": "/learn/tables",
+      "description": "Study Times Tables, Squares, and Cubes."
+    },
+    {
+      "name": "Practice Engine",
+      "url": "/practice",
+      "description": "Configure workouts and start drills."
+    },
+    {
+      "name": "Analytics Sheets",
+      "url": "/analytics",
+      "description": "View leveling progression and badges."
+    }
+  ]
+}
