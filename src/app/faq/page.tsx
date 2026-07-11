@@ -1,157 +1,175 @@
 "use client";
 
 import React, { useState } from "react";
-import { HelpCircle, Search } from "lucide-react";
+import Link from "next/link";
+import { HelpCircle, Search, ArrowRight } from "lucide-react";
 import { Card } from "@/components/ui/card";
 
 interface FaqItem {
   q: string;
   a: string;
-  category: "general" | "engine" | "privacy";
+  category: "learning" | "practice" | "platform" | "privacy";
 }
+
+const faqs: FaqItem[] = [
+  // --- Learning & Study Techniques ---
+  {
+    q: "What is mental math, and why should I learn it?",
+    a: "Mental math is the ability to perform calculations in your head without writing anything down. It builds stronger number sense, improves working memory, and helps you estimate answers quickly during exams, job interviews, and everyday decisions like splitting bills or calculating discounts.",
+    category: "learning",
+  },
+  {
+    q: "How can I improve my calculation speed?",
+    a: "Start with small daily sessions of 5 to 10 minutes. Focus on one skill at a time — for example, spend a week mastering the 7 and 8 times tables before moving to two-digit multiplication. Use the left-to-right decomposition method (breaking 47 × 6 into 40 × 6 + 7 × 6) instead of the column method taught in schools. Consistent short practice builds faster reflexes than occasional long sessions.",
+    category: "learning",
+  },
+  {
+    q: "What is the best way to memorize multiplication tables?",
+    a: "Combine three approaches: visual review (read through the table on our Times Tables page), active recall (use Flash Cards mode to test yourself without seeing the answer first), and spaced repetition (revisit tables you found difficult the next day). Most people find that tables 6 through 9 need the most practice. Our voice reading feature can also help auditory learners absorb the patterns.",
+    category: "learning",
+  },
+  {
+    q: "How do I quickly calculate percentages in my head?",
+    a: "Learn the benchmark fractions: 50% is half, 25% is a quarter, 10% is moving the decimal point one place left, and 1% is moving it two places left. To find 15% of 80, calculate 10% (8) plus 5% (4) to get 12. Our Fractions and Percentage guide has a full conversion table with visual bars you can print and keep at your desk.",
+    category: "learning",
+  },
+  {
+    q: "What are Vedic Math techniques?",
+    a: "Vedic Mathematics is a collection of mental calculation methods compiled from ancient Indian texts. It includes techniques like the Vertically and Crosswise method for multiplying two-digit numbers, the Nikhilam Sutra for numbers close to a base (like 97 × 96), and squaring numbers ending in 5 (just multiply the tens digit by the next number and append 25). Our Vedic Maths article explains each technique with step-by-step worked examples.",
+    category: "learning",
+  },
+  {
+    q: "How do squares and cubes help in competitive exams?",
+    a: "Many quantitative aptitude questions in exams like SSC, Banking, CAT, and GRE can be solved faster if you know squares up to 30 and cubes up to 15 from memory. For example, recognizing that 2025 is 45 squared instantly answers what is the square root of 2025. Our Squares and Cubes reference pages let you browse, search, and print these values.",
+    category: "learning",
+  },
+
+  // --- Practice Engine ---
+  {
+    q: "What practice modes are available?",
+    a: "SpeedMaths offers several modes to suit different goals. Standard Practice gives unlimited attempts at your chosen pace. Exam Mode limits you to 3 lives, simulating test pressure. Time Attack gives you 60 seconds to answer as many questions as possible. Infinite Mode never ends, letting you enter a flow state. Daily Challenge generates the same 20 questions for every user worldwide each day, so you can compare results.",
+    category: "practice",
+  },
+  {
+    q: "How does the Daily Challenge work?",
+    a: "Each day at midnight, the platform uses the calendar date as a random seed to generate a unique set of 20 questions covering different topics and difficulty levels. Every user around the world receives the same questions on the same day. This makes it fair to compare your speed and accuracy with friends or classmates. A new challenge appears automatically the next day.",
+    category: "practice",
+  },
+  {
+    q: "What question formats does the practice engine support?",
+    a: "You can practice with four different formats. Manual Input requires you to type the answer, which is the most challenging. Multiple Choice (MCQ) gives four options. True or False asks you to verify a given equation. Flash Cards show the question first, then reveal the answer for you to self-grade as correct or incorrect.",
+    category: "practice",
+  },
+  {
+    q: "How does the adaptive difficulty work?",
+    a: "When you select Adaptive difficulty, the engine starts with easier questions and gradually increases the challenge as you progress through the session. The first 30 percent of questions are easy, the middle 40 percent are medium, and the final 30 percent are hard. This ensures you build confidence early and push your limits toward the end.",
+    category: "practice",
+  },
+  {
+    q: "Can I practice only the questions I got wrong?",
+    a: "Yes. After finishing any session, questions you answered incorrectly are saved. You can click the Mistakes Only option in the practice configurator to drill those specific problems again. This targeted repetition is one of the most effective ways to strengthen weak areas.",
+    category: "practice",
+  },
+  {
+    q: "What keyboard shortcuts are available during practice?",
+    a: "For MCQ questions, press keys 1 through 4 to select an answer. Press Space to flip a flashcard. After flipping, press 1 for wrong or 2 for correct. Press H to show a hint, V to hear the question read aloud, and Escape to end the session early. These shortcuts let you practice without touching the mouse.",
+    category: "practice",
+  },
+
+  // --- Platform Features ---
+  {
+    q: "Do I need to create an account?",
+    a: "No. SpeedMaths works without any registration, login, or email. You can start practicing immediately by visiting the site. Your progress is saved automatically in your browser.",
+    category: "platform",
+  },
+  {
+    q: "Does SpeedMaths work offline?",
+    a: "Yes. SpeedMaths is a Progressive Web App. After your first visit, the service worker caches the application files. If you lose internet connectivity, the app continues to function normally. You can also install it on your phone or desktop for quick access from your home screen.",
+    category: "platform",
+  },
+  {
+    q: "Can I use SpeedMaths on my phone or tablet?",
+    a: "Yes. The entire interface is responsive and adapts to screen sizes from small phones to large desktop monitors. On mobile, you get a simplified navigation menu and touch-friendly buttons. You can also install SpeedMaths as a PWA app on Android or iOS for a native-like experience.",
+    category: "platform",
+  },
+  {
+    q: "Can I print the multiplication tables and reference charts?",
+    a: "Yes. Every learning page — including times tables, squares, cubes, and fraction charts — is designed with print-friendly formatting. When you print, the navigation bar, footer, and advertisements are automatically hidden, producing clean A4 sheets suitable for classroom use or personal study.",
+    category: "platform",
+  },
+  {
+    q: "How does the analytics dashboard track my progress?",
+    a: "The dashboard shows your total questions answered, accuracy percentage, average response time, current streak, and longest streak. It includes a line chart of daily performance, a bar chart of topic frequency, a radar chart of topic strength, and a GitHub-style calendar heatmap showing your practice consistency over time. You can also unlock achievement badges based on milestones.",
+    category: "platform",
+  },
+
+  // --- Privacy & Data ---
+  {
+    q: "Where is my practice data stored?",
+    a: "All your data — including scores, streaks, XP, unlocked badges, and practice history — is stored in your browser using LocalStorage. Nothing is sent to any server. This means your data stays on your device and is completely private.",
+    category: "privacy",
+  },
+  {
+    q: "Can I back up or transfer my progress to another device?",
+    a: "Yes. On the Analytics page, use the Export button to download your progress as a JSON file. On the other device, use the Import button to upload that file and restore your stats. This is also useful as a backup before clearing your browser data.",
+    category: "privacy",
+  },
+  {
+    q: "How do I reset all my data and start fresh?",
+    a: "Go to the Analytics page and click the Reset All Stats button. This permanently deletes all practice history, scores, badges, and streaks from your browser. The action cannot be undone, so consider exporting a backup first.",
+    category: "privacy",
+  },
+];
+
+export { faqs };
 
 export default function FaqPage() {
   const [searchQuery, setSearchQuery] = useState("");
-  const [activeCategory, setActiveCategory] = useState<"all" | "general" | "engine" | "privacy">("all");
+  const [activeCategory, setActiveCategory] = useState<
+    "all" | "learning" | "practice" | "platform" | "privacy"
+  >("all");
 
-  const faqs: FaqItem[] = [
-    {
-      q: "What is SpeedMaths?",
-      a: "SpeedMaths is an interactive mental arithmetic training platform designed to sharpen calculation speed, response accuracy, and mathematical memory. It provides visual learning grids, a practice cockpit, and detailed score dashboards.",
-      category: "general"
-    },
-    {
-      q: "How can I improve my mental calculation speed?",
-      a: "Consistency is key. By practicing left-to-right decomposition methods (e.g., breaking down additions or multiplications into tens and units) for 10 minutes daily, you build automatic numerical reflexes.",
-      category: "general"
-    },
-    {
-      q: "How do I memorize multiplication tables?",
-      a: "Use our interactive Times Tables guide. Read the tables using the vocal Speech trigger, print worksheets for offline paper grids review, and use Flash Cards mode to test recall.",
-      category: "general"
-    },
-    {
-      q: "How does the Daily Challenge work?",
-      a: "The Daily Challenge is a seeded workout set. Using today's calendar date as a random seed, the platform generates a unique set of 20 adaptive questions. Every user globally receives the exact same set of questions for that day, allowing you to compare speeds.",
-      category: "engine"
-    },
-    {
-      q: "How are my training analytics stored?",
-      a: "All stats (correct logs, levels, badges, accuracy, average speed) are stored completely on your local device using HTML5 LocalStorage. We do not use remote databases.",
-      category: "privacy"
-    },
-    {
-      q: "Is my training data private?",
-      a: "Absolutely. Since all data remains in your browser's LocalStorage, we never collect, transmit, or share your mathematical scores, names, or emails with remote servers.",
-      category: "privacy"
-    },
-    {
-      q: "Does this website work offline?",
-      a: "Yes. SpeedMaths is configured as a Progressive Web App (PWA). The background Service Worker caches all scripts, stylesheets, and pages. If you lose connection, you will automatically be served an offline-enabled layout.",
-      category: "general"
-    },
-    {
-      q: "Can I use it on mobile devices?",
-      a: "Yes. The layout is 100% responsive and includes mobile-optimized sticky footers, swipe navigation columns, and touch-friendly buttons.",
-      category: "general"
-    },
-    {
-      q: "Can I print learning sheets?",
-      a: "Yes. All multiplication tables, squares, cubes, and fraction charts contain print-friendly CSS formatting. Pressing print hides menus and ads, generating A4 sheets.",
-      category: "general"
-    },
-    {
-      q: "Do I need an account to use the site?",
-      a: "No. SpeedMaths requires no logins, registration pages, passwords, or emails. Simply navigate to the site and start practicing instantly.",
-      category: "general"
-    },
-    {
-      q: "What is the difference between standard practice and exam mode?",
-      a: "Practice Mode allows unlimited errors and is relaxed. Exam Mode imposes a strict limit of 3 hearts (lives). Time Attack counts down a global 60-second limit.",
-      category: "engine"
-    },
-    {
-      q: "How does the adaptive difficulty algorithm progress?",
-      a: "Under Adaptive mode, the engine evaluates your workout index. The first 30% of questions are set to Easy, the next 40% are Medium, and the final 30% are Hard.",
-      category: "engine"
-    },
-    {
-      q: "What are Vedic Math techniques?",
-      a: "Vedic Mathematics is an ancient Indian system based on word formulas (Sutras). It simplifies complex calculations (like squaring or base subtraction) into fast visual adjustments.",
-      category: "engine"
-    },
-    {
-      q: "What keyboard shortcuts are available?",
-      a: "Keyboard shortcuts include keys 1-4 for MCQs, Spacebar to flip flashcards, key 1 (Wrong) and 2 (Correct) for self-grading, H to toggle hints, V to read questions aloud, and Esc to abort.",
-      category: "engine"
-    },
-    {
-      q: "How can I practice failed calculations?",
-      a: "On completing a session, failed questions are logged. Click 'Re-drill Mistakes Only' to repeat failed equations. You can also practice globally cached mistakes from the configurator.",
-      category: "engine"
-    },
-    {
-      q: "How does the XP level progression work?",
-      a: "Each correct calculation awards XP points (multiplied by streaks). Level boundaries increase every 200 XP points.",
-      category: "engine"
-    },
-    {
-      q: "Can I backup or restore my training achievements?",
-      a: "Yes. In the Analytics dashboard, click 'Export JSON' to download a backup file of your profile. Upload this file via the 'Import JSON' button to restore your stats.",
-      category: "privacy"
-    },
-    {
-      q: "What is the fraction percentage conversion guide?",
-      a: "Our fractions converter shows decimal equivalents and ratios side-by-side with interactive visual HTML bars, speeding up estimation during math tests.",
-      category: "general"
-    },
-    {
-      q: "Does this site support screen readers?",
-      a: "Yes. The layout includes clean semantic HTML5 structural elements, descriptive ARIA labels, focus visual rings, and full keyboard navigation indicators.",
-      category: "general"
-    },
-    {
-      q: "How do I clear all my platform history?",
-      a: "Navigate to the Analytics page, click 'Reset All Stats' and confirm. This permanently clears all LocalStorage metrics in your current browser session.",
-      category: "privacy"
-    }
-  ];
-
-  const filteredFaqs = faqs.filter(faq => {
-    const matchesSearch = faq.q.toLowerCase().includes(searchQuery.toLowerCase()) || 
-                          faq.a.toLowerCase().includes(searchQuery.toLowerCase());
-    const matchesCategory = activeCategory === "all" || faq.category === activeCategory;
+  const filteredFaqs = faqs.filter((faq) => {
+    const matchesSearch =
+      faq.q.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      faq.a.toLowerCase().includes(searchQuery.toLowerCase());
+    const matchesCategory =
+      activeCategory === "all" || faq.category === activeCategory;
     return matchesSearch && matchesCategory;
   });
 
   const faqPageJson = {
     "@context": "https://schema.org",
     "@type": "FAQPage",
-    "mainEntity": faqs.map(f => ({
+    mainEntity: faqs.map((f) => ({
       "@type": "Question",
-      "name": f.q,
-      "acceptedAnswer": { "@type": "Answer", "text": f.a }
-    }))
+      name: f.q,
+      acceptedAnswer: { "@type": "Answer", text: f.a },
+    })),
   };
 
   return (
     <div className="max-w-4xl mx-auto py-8 px-4 sm:px-6 lg:px-8 space-y-12">
-      
-      {/* Schema Injection */}
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqPageJson) }} />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqPageJson) }}
+      />
 
       {/* Header */}
       <div className="text-center max-w-2xl mx-auto space-y-3">
         <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-tr from-primary to-violet-600 shadow-md mx-auto mb-2">
           <HelpCircle className="h-6 w-6 text-white" />
         </div>
-        <h1 className="text-3xl md:text-4xl font-extrabold tracking-tight">FAQ Portal</h1>
+        <h1 className="text-3xl md:text-4xl font-extrabold tracking-tight">
+          Frequently Asked Questions
+        </h1>
         <p className="text-sm md:text-base text-muted-foreground leading-relaxed">
-          Find answers to questions about streaking, offline PWA caches, and local storage variables.
+          Answers to common questions about mental math practice, learning
+          techniques, progress tracking, and data privacy.
         </p>
       </div>
 
-      {/* Controls: Search and Filters */}
+      {/* Search and Category Filters */}
       <div className="space-y-4">
         <div className="relative">
           <Search className="absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
@@ -159,35 +177,47 @@ export default function FaqPage() {
             type="text"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            placeholder="Search FAQs by keywords..."
+            placeholder="Search questions..."
+            aria-label="Search frequently asked questions"
             className="w-full h-11 pl-10 pr-4 rounded-lg border border-border bg-background text-sm text-foreground outline-none focus:ring-2 focus:ring-primary focus:border-primary transition-all"
           />
         </div>
 
         <div className="flex flex-wrap gap-2 text-xs">
-          {(["all", "general", "engine", "privacy"] as const).map((cat) => (
+          {(
+            ["all", "learning", "practice", "platform", "privacy"] as const
+          ).map((cat) => (
             <button
               key={cat}
               onClick={() => setActiveCategory(cat)}
               className={`h-8 px-4 rounded-lg border font-bold capitalize transition-all cursor-pointer ${
-                activeCategory === cat 
-                  ? "border-primary bg-primary/5 text-primary" 
+                activeCategory === cat
+                  ? "border-primary bg-primary/5 text-primary"
                   : "border-border/80 hover:bg-secondary text-muted-foreground"
               }`}
             >
-              {cat === "all" ? "Show All" : cat === "engine" ? "Engine & Math" : cat}
+              {cat === "all"
+                ? "All Topics"
+                : cat === "learning"
+                  ? "Learning Tips"
+                  : cat === "practice"
+                    ? "Practice Engine"
+                    : cat.charAt(0).toUpperCase() + cat.slice(1)}
             </button>
           ))}
         </div>
       </div>
 
-      {/* FAQ Accordion List */}
-      <div className="space-y-6">
+      {/* FAQ List */}
+      <div className="space-y-4">
         {filteredFaqs.length > 0 ? (
           filteredFaqs.map((faq, idx) => (
-            <Card key={idx} className="glassmorphism border-border/40 p-5 space-y-2">
+            <Card
+              key={idx}
+              className="glassmorphism border-border/40 p-5 space-y-2"
+            >
               <h3 className="text-sm font-extrabold text-foreground leading-snug flex items-start gap-1.5">
-                <span className="text-primary font-bold">Q:</span>
+                <span className="text-primary font-bold mt-0.5">Q.</span>
                 <span>{faq.q}</span>
               </h3>
               <p className="text-xs md:text-sm text-muted-foreground leading-relaxed pl-5">
@@ -198,12 +228,45 @@ export default function FaqPage() {
         ) : (
           <div className="text-center py-12 text-muted-foreground space-y-2 border border-dashed border-border/60 rounded-xl bg-secondary/10">
             <span className="block text-xl">🔍</span>
-            <span className="block text-xs font-bold uppercase tracking-wider">No matching FAQs found</span>
-            <span className="block text-[11px] text-muted-foreground/80">Try modifying your search keywords.</span>
+            <span className="block text-xs font-bold uppercase tracking-wider">
+              No matching questions found
+            </span>
+            <span className="block text-[11px] text-muted-foreground/80">
+              Try different keywords or browse all categories.
+            </span>
           </div>
         )}
       </div>
 
+      {/* Related Links */}
+      <div className="border-t border-border/20 pt-8 space-y-3">
+        <h2 className="text-lg font-bold text-foreground">
+          Explore More Resources
+        </h2>
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs">
+          <Link
+            href="/blog/mental-math-tricks"
+            className="flex items-center gap-1.5 p-3 rounded-lg border border-border/60 hover:bg-secondary/30 transition-colors"
+          >
+            <ArrowRight className="h-3.5 w-3.5 text-primary flex-shrink-0" />
+            <span>Mental Math Tricks Guide</span>
+          </Link>
+          <Link
+            href="/practice"
+            className="flex items-center gap-1.5 p-3 rounded-lg border border-border/60 hover:bg-secondary/30 transition-colors"
+          >
+            <ArrowRight className="h-3.5 w-3.5 text-primary flex-shrink-0" />
+            <span>Start Practicing Now</span>
+          </Link>
+          <Link
+            href="/learn/tables"
+            className="flex items-center gap-1.5 p-3 rounded-lg border border-border/60 hover:bg-secondary/30 transition-colors"
+          >
+            <ArrowRight className="h-3.5 w-3.5 text-primary flex-shrink-0" />
+            <span>Browse Times Tables</span>
+          </Link>
+        </div>
+      </div>
     </div>
   );
 }

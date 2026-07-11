@@ -34,7 +34,7 @@ export default function Home() {
   }, []);
 
   const handleStartPracticeMock = (topicName: string) => {
-    toast(`Speed Workout mode for ${topicName} will launch in Phase 2. Stay tuned!`, "info");
+    window.location.href = `/practice`;
   };
 
   // Map icon name to Lucide React component
@@ -73,20 +73,20 @@ export default function Home() {
 
   const faqs = [
     {
-      q: "Why is mental arithmetic speed training useful?",
-      a: "Mental maths strengthens neural connections, improves working memory, and accelerates calculation in crucial scenarios like quantitative coding interviews, GRE/GMAT/CAT examinations, and financial modeling."
+      q: "How does mental math speed training actually help?",
+      a: "Regular mental arithmetic practice strengthens neural pathways involved in working memory and number sense. Students who train for just 10 minutes daily show measurable improvements in exam scores, particularly in quantitative sections of tests like the SAT, GRE, GMAT, and CAT."
     },
     {
-      q: "How often should I practice to see improvements?",
-      a: "Consistency beats duration. Practising for just 5 to 10 minutes every day develops strong patterns and shortcuts in your brain, leading to substantial recall rate gains within two weeks."
+      q: "How often should I practice to see real results?",
+      a: "Consistency matters more than session length. Practising 5 to 10 minutes every day builds stronger mental shortcuts than a single hour-long session once a week. Most users notice faster recall within two weeks of daily practice."
     },
     {
-      q: "Can I use external calculators or scratching pads?",
-      a: "To maximize benefit, we recommend solving all equations purely in your head. Building a mental scratchpad is the primary objective of these drills."
+      q: "Is SpeedMaths free to use?",
+      a: "Yes, completely free. There are no accounts, subscriptions, or paywalls. All learning materials, practice drills, and analytics features are available to everyone without registration."
     },
     {
-      q: "What training modes are planned for future phases?",
-      a: "In Phase 2, we will launch fully interactive speed-drills with real-time timers, adaptive difficulty progression, customizable streaks, and detailed dashboard reports mapping your accuracy trends."
+      q: "What topics can I practice?",
+      a: "You can practice multiplication tables (1 to 50), squares (1 to 100), cubes (1 to 50), power tables, fractions to decimals, addition, subtraction, multiplication, division, and mixed operations — with multiple difficulty levels and question formats."
     }
   ];
 
