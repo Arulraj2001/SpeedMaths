@@ -20,11 +20,56 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
+const BASE_URL = "https://speedmaths.com";
+
 export const metadata: Metadata = {
-  title: "SpeedMaths - Master Mental Arithmetic and Calculation Speed",
+  metadataBase: new URL(BASE_URL),
+  title: {
+    default: "SpeedMaths — Free Mental Math Training Platform",
+    template: "%s | SpeedMaths",
+  },
   description:
-    "Phase 1 speed arithmetic testing web application. Train times tables, powers, square roots, fractions, addition, subtraction, division, and number characteristics in dark mode.",
+    "Master mental arithmetic with free interactive drills. Practice multiplication tables, squares, cubes, fractions, powers, and number types. Track progress with analytics dashboards.",
   manifest: "/manifest.json",
+  alternates: {
+    canonical: BASE_URL,
+    types: {
+      "application/rss+xml": `${BASE_URL}/feed.xml`,
+    },
+  },
+  openGraph: {
+    type: "website",
+    locale: "en_US",
+    url: BASE_URL,
+    siteName: "SpeedMaths",
+    title: "SpeedMaths — Free Mental Math Training Platform",
+    description:
+      "Master mental arithmetic with free interactive drills. Practice multiplication tables, squares, cubes, fractions, powers, and number types.",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "SpeedMaths — Free Mental Math Training Platform",
+    description:
+      "Master mental arithmetic with free interactive drills. Practice multiplication tables, squares, cubes, fractions, and powers.",
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-video-preview": -1,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+    },
+  },
+  verification: {
+    google: "GOOGLE_SEARCH_CONSOLE_VERIFICATION_ID",
+    other: {
+      "msvalidate.01": "BING_WEBMASTER_VERIFICATION_ID",
+    },
+  },
+  category: "education",
 };
 
 export default function RootLayout({
@@ -32,12 +77,48 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const websiteSchema = {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    name: "SpeedMaths",
+    url: BASE_URL,
+    description:
+      "Free mental arithmetic training platform with interactive drills, analytics dashboards, and printable reference sheets.",
+    potentialAction: {
+      "@type": "SearchAction",
+      target: `${BASE_URL}/faq?q={search_term_string}`,
+      "query-input": "required name=search_term_string",
+    },
+  };
+
+  const organizationSchema = {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    name: "SpeedMaths",
+    url: BASE_URL,
+    logo: `${BASE_URL}/icon-512.png`,
+    sameAs: ["https://github.com/Arulraj2001/SpeedMaths"],
+    contactPoint: {
+      "@type": "ContactPoint",
+      email: "support@speedmaths.com",
+      contactType: "customer support",
+    },
+  };
+
   return (
     <html
       lang="en"
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
       suppressHydrationWarning
     >
+      <head>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify([websiteSchema, organizationSchema]),
+          }}
+        />
+      </head>
       <body className="min-h-full flex flex-col bg-background text-foreground antialiased selection:bg-primary/20">
         <PwaRegister />
         <GoogleAnalytics />
