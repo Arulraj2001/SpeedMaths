@@ -164,6 +164,9 @@ export default function PracticePage() {
   const timerRef = useRef<NodeJS.Timeout | null>(null);
   const startTimeRef = useRef<number>(Date.now());
   const inputRef = useRef<HTMLInputElement>(null);
+  const progressBarRef = useRef<HTMLDivElement>(null);
+  const totalProgressBarRef = useRef<HTMLDivElement>(null);
+  const animationFrameRef = useRef<number | null>(null);
 
   // 1. Initial PWA prompt loading
   useEffect(() => {
@@ -193,44 +196,97 @@ export default function PracticePage() {
   useEffect(() => {
     if (screen !== "ENGINE") return;
 
-    // Challenge Mode: total countdown
-    if (selectedMode === "challenge") {
-      timerRef.current = setInterval(() => {
-        setTotalTimeLeft((prev) => {
-          if (prev <= 1) {
-            handleSessionComplete();
-            return 0;
+    const startTimestamp = performance.now();
+    let lastSecond = -1;
+    let soundPlayed = false;
+
+    const tick = (now: number) => {
+      const elapsed = now - startTimestamp;
+
+      if (selectedMode === "challenge") {
+        const totalDuration = 60 * 1000;
+        const remainingMs = Math.max(0, totalDuration - elapsed);
+        const remainingSec = Math.ceil(remainingMs / 1000);
+
+        // Update progress bar DOM directly
+        if (totalProgressBarRef.current) {
+          const percent = (remainingMs / totalDuration) * 100;
+          totalProgressBarRef.current.style.width = `${percent}%`;
+          if (percent < 20) {
+            totalProgressBarRef.current.classList.add("bg-rose-500");
+            totalProgressBarRef.current.classList.remove("bg-primary");
+          } else {
+            totalProgressBarRef.current.classList.add("bg-primary");
+            totalProgressBarRef.current.classList.remove("bg-rose-500");
           }
-          if (prev === 6 && soundEnabled) playTimeoutSound();
-          return prev - 1;
-        });
-      }, 1000);
-      return () => {
-        if (timerRef.current) clearInterval(timerRef.current);
-      };
-    }
+        }
 
-    // Normal modes: per-question timer
-    if (selectedTimer > 0) {
-      startTimeRef.current = Date.now();
-
-      timerRef.current = setInterval(() => {
-        setTimeLeft((prev) => {
-          if (prev <= 1) {
-            handleAnswer("", false, true); // Timeout
-            return selectedTimer;
+        // Only update React state on integer changes to avoid excessive renders
+        if (remainingSec !== lastSecond) {
+          lastSecond = remainingSec;
+          setTotalTimeLeft(remainingSec);
+          if (remainingSec === 5 && soundEnabled && !soundPlayed) {
+            playTimeoutSound();
+            soundPlayed = true;
           }
-          if (prev === 4 && soundEnabled) playTimeoutSound();
-          return prev - 1;
-        });
-      }, 1000);
+          if (remainingSec > 5) {
+            soundPlayed = false;
+          }
+        }
 
-      return () => {
-        if (timerRef.current) clearInterval(timerRef.current);
-      };
-    }
+        if (remainingMs <= 0) {
+          handleSessionComplete();
+          return;
+        }
+      } else if (selectedTimer > 0) {
+        const limitMs = selectedTimer * 1000;
+        const remainingMs = Math.max(0, limitMs - elapsed);
+        const remainingSec = Math.ceil(remainingMs / 1000);
+
+        // Update progress bar DOM directly
+        if (progressBarRef.current) {
+          const percent = (remainingMs / limitMs) * 100;
+          progressBarRef.current.style.width = `${percent}%`;
+          if (percent < 30) {
+            progressBarRef.current.classList.add("bg-rose-500");
+            progressBarRef.current.classList.remove("bg-primary");
+          } else {
+            progressBarRef.current.classList.add("bg-primary");
+            progressBarRef.current.classList.remove("bg-rose-500");
+          }
+        }
+
+        // Only update React state on integer changes
+        if (remainingSec !== lastSecond) {
+          lastSecond = remainingSec;
+          setTimeLeft(remainingSec);
+          if (remainingSec === 3 && soundEnabled && !soundPlayed) {
+            playTimeoutSound();
+            soundPlayed = true;
+          }
+          if (remainingSec > 3) {
+            soundPlayed = false;
+          }
+        }
+
+        if (remainingMs <= 0) {
+          handleAnswer("", false, true); // Timeout
+          return;
+        }
+      }
+
+      animationFrameRef.current = requestAnimationFrame(tick);
+    };
+
+    animationFrameRef.current = requestAnimationFrame(tick);
+
+    return () => {
+      if (animationFrameRef.current !== null) {
+        cancelAnimationFrame(animationFrameRef.current);
+      }
+    };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [screen, currentIndex, selectedMode, selectedTimer]);
+  }, [screen, currentIndex, selectedMode, selectedTimer, soundEnabled]);
 
   // 3. KEYBOARD SHORTCUTS LOOP
   useEffect(() => {
@@ -946,6 +1002,24 @@ export default function PracticePage() {
 
           {/* Question Box Card */}
           <Card className="glassmorphism border-border/40 overflow-hidden relative min-h-[300px] flex flex-col justify-between">
+            {/* Smooth Visual Timer Progress Bar */}
+            {selectedMode === "challenge" ? (
+              <div className="absolute top-0 left-0 w-full h-1 bg-secondary/30 z-20">
+                <div
+                  ref={totalProgressBarRef}
+                  className="h-full bg-primary transition-all duration-75 ease-linear"
+                  style={{ width: "100%" }}
+                />
+              </div>
+            ) : selectedTimer > 0 ? (
+              <div className="absolute top-0 left-0 w-full h-1 bg-secondary/30 z-20">
+                <div
+                  ref={progressBarRef}
+                  className="h-full bg-primary transition-all duration-75 ease-linear"
+                  style={{ width: "100%" }}
+                />
+              </div>
+            ) : null}
             <CardHeader className="pb-2 border-b border-border/10">
               <div className="flex justify-between items-center text-xs text-muted-foreground">
                 <span>Calculations Speed-Deck</span>
