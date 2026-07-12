@@ -1,11 +1,13 @@
 "use client";
 
 import React, { useState } from "react";
-import { Send, HelpCircle, ArrowRight } from "lucide-react";
+import { Send, HelpCircle, ArrowRight, Mail } from "lucide-react";
 import { Card, CardHeader, CardTitle, CardContent, CardDescription } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/components/ui/toast";
 import Link from "next/link";
+
+const CONTACT_EMAIL = "arulraj8637@gmail.com";
 
 export function ContactForm() {
   const { toast } = useToast();
@@ -22,14 +24,21 @@ export function ContactForm() {
       return;
     }
 
-    setIsSubmitting(true);
-    setTimeout(() => {
-      setIsSubmitting(false);
-      toast("Your message has been sent successfully! Expect a reply within 24-48 hours.", "success");
-      setName("");
-      setEmail("");
-      setMessage("");
-    }, 1200);
+    const subjectValue = subject === "general"
+      ? "SpeedMaths Contact Form"
+      : `SpeedMaths: ${subject.charAt(0).toUpperCase()}${subject.slice(1)} Inquiry`;
+
+    const body = [
+      `Name: ${name}`,
+      `Reply Email: ${email}`,
+      `Subject: ${subjectValue}`,
+      "",
+      message,
+    ].join("\n");
+
+    const mailtoLink = `mailto:${CONTACT_EMAIL}?subject=${encodeURIComponent(subjectValue)}&body=${encodeURIComponent(body)}`;
+    window.location.href = mailtoLink;
+    toast(`Opening your email app to send the message to ${CONTACT_EMAIL}.`, "success");
   };
 
   return (
@@ -134,10 +143,21 @@ export function ContactForm() {
         <Card className="border-border bg-card p-6 space-y-4">
           <h3 className="text-sm font-bold text-foreground">Follow Our Updates</h3>
           <p className="text-xs text-muted-foreground leading-relaxed">
-            We post regular arithmetic speed tips and feature launch releases on social media.
+            For direct contact, use the email address below. Social links are secondary and may not be actively monitored.
           </p>
           
           <div className="space-y-2.5">
+            <a 
+              href={`mailto:${CONTACT_EMAIL}`}
+              className="flex items-center justify-between p-3 border border-primary/30 rounded-lg bg-primary/5 hover:bg-primary/10 text-xs transition-all"
+            >
+              <div className="flex items-center gap-2">
+                <Mail className="h-4 w-4 text-primary" />
+                <span className="font-semibold font-sans">{CONTACT_EMAIL}</span>
+              </div>
+              <ArrowRight className="h-3.5 w-3.5 text-muted-foreground" />
+            </a>
+
             <a 
               href="https://github.com/Arulraj2001/SpeedMaths" 
               target="_blank" 
