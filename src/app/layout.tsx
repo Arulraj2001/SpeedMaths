@@ -27,6 +27,7 @@ export const metadata: Metadata = {
   metadataBase: new URL(BASE_URL),
   title: {
     default: "SpeedMaths — Free Mental Math Training Platform",
+    template: "%s | SpeedMaths",
   },
   description: SITE_DESCRIPTION,
   manifest: "/manifest.json",

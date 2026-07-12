@@ -405,10 +405,10 @@ By learning to reverse percentages and using fractional benchmarks, you can solv
 ## Part 1: The Reversibility Principle (x% of y = y% of x)
 
 The most powerful percentage shortcut is the reversibility identity:
-$$x\% \text{ of } y = y\% \text{ of } x$$
+$$x\\% \\text{ of } y = y\\% \\text{ of } x$$
 
-This formula works because multiplication is commutative:
-$$\frac{x}{100} × y = \frac{y}{100} × x$$
+The logic relies on algebraic commutativity:
+$$\\frac{x}{100} × y = \\frac{y}{100} × x$$
 
 If calculating $x\%$ of $y$ is difficult, check if calculating $y\%$ of $x$ is easier.
 
@@ -459,17 +459,17 @@ To calculate any percentage, decompose it into multiples of $10\%$ and $1\%$, wh
 
 Let us calculate: **15% of 120**
 1. Find $10\%$ of $120$:
-   $$120 \rightarrow 12$$
+   $$120 \\rightarrow 12$$
 2. Find $5\%$ of $120$ (halve the $10\%$ value):
    $$12 ÷ 2 = 6$$
 3. Sum the values:
    $$15\% = 10\% + 5\% = 12 + 6 = 18$$
 
 Let us calculate: **23% of 400**
-1. Find $10\%$ of $400 \rightarrow 40$.
-2. Find $20\%$ of $400 \rightarrow 40 × 2 = 80$.
-3. Find $1\%$ of $400 \rightarrow 4$.
-4. Find $3\%$ of $400 \rightarrow 4 × 3 = 12$.
+1. Find $10\%$ of $400 \\rightarrow 40$.
+2. Find $20\%$ of $400 \\rightarrow 40 × 2 = 80$.
+3. Find $1\%$ of $400 \\rightarrow 4$.
+4. Find $3\%$ of $400 \\rightarrow 4 × 3 = 12$.
 5. Sum the values:
    $$20\% + 3\% = 80 + 12 = 92$$
 

@@ -20,8 +20,8 @@ export function PwaRegister() {
           });
       };
 
-      if ("requestIdleCallback" in window) {
-        window.requestIdleCallback(registerServiceWorker, { timeout: 4000 });
+      if (typeof (window as any).requestIdleCallback === "function") {
+        (window as any).requestIdleCallback(registerServiceWorker, { timeout: 4000 });
       } else {
         window.addEventListener("load", registerServiceWorker, { once: true });
       }
