@@ -145,7 +145,7 @@ export function Footer() {
           </div>
         </div>
 
-        {/* Newsletter placeholder */}
+        {/* Newsletter Signup Section */}
         <div id="newsletter" className="mt-12 border-t border-border/40 pt-8 lg:flex lg:items-center lg:justify-between">
           <div className="max-w-md">
             <h3 className="text-base font-semibold text-foreground">

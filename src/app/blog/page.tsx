@@ -9,30 +9,21 @@ import { articles } from "@/data/blog";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "SpeedMaths Blog - Master Mental Arithmetic Shortcuts & Hacks",
-  description: "Read detailed tutorials, Vedic Maths secrets, divisibility rules, and quick percentage calculation hacks for standardized competitive exams.",
+  title: "Mental Math Tips and Tricks — Free Guides for Students and Exam Preparation",
+  description: "Step-by-step guides on mental multiplication, division shortcuts, percentage tricks, Vedic Maths techniques, and exam calculation strategies. Written for students preparing for SAT, GRE, GMAT, CAT, and banking exams.",
   alternates: {
     canonical: "https://speedmaths.com/blog",
   },
   openGraph: {
-    title: "SpeedMaths Blog - Master Mental Arithmetic Shortcuts & Hacks",
-    description: "Read detailed tutorials, Vedic Maths secrets, divisibility rules, and quick percentage calculation hacks for standardized competitive exams.",
+    title: "Mental Math Tips and Tricks — Free Guides for Students",
+    description: "Step-by-step guides on mental multiplication, division shortcuts, percentage tricks, Vedic Maths techniques, and exam calculation strategies.",
     url: "https://speedmaths.com/blog",
     type: "website",
-    images: [
-      {
-        url: "https://img.icons8.com/color/512/brain.png",
-        width: 512,
-        height: 512,
-        alt: "SpeedMaths Logo",
-      }
-    ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "SpeedMaths Blog - Master Mental Arithmetic Shortcuts & Hacks",
-    description: "Read detailed tutorials, Vedic Maths secrets, divisibility rules, and quick percentage calculation hacks for standardized competitive exams.",
-    images: ["https://img.icons8.com/color/512/brain.png"],
+    title: "Mental Math Tips and Tricks — Free Guides for Students",
+    description: "Step-by-step guides on mental multiplication, division shortcuts, percentage tricks, Vedic Maths, and exam strategies.",
   }
 };
 
