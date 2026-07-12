@@ -1,4 +1,4 @@
-export const SITE_URL = "https://www.speed-maths-gamma.vercel.app";
+export const SITE_URL = "https://speedmaths.com";
 export const SITE_NAME = "SpeedMaths";
 export const SITE_DESCRIPTION =
   "Practice mental math with free interactive drills, step-by-step learning guides, blog tutorials, and progress tracking.";
