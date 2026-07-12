@@ -81,7 +81,7 @@ export default function NumberTypeClient({ type }: { type: string }) {
   const relatedData = numberTypes.filter((t) => data.relatedTopics.includes(t.id));
 
   return (
-    <div className="space-y-8 pb-10">
+    <div className="max-w-7xl mx-auto px-4 py-8 sm:px-6 lg:px-8 space-y-8 pb-10">
       
       {/* Return button */}
       <div className="print:hidden">

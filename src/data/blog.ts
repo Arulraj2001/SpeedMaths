@@ -122,11 +122,11 @@ We can leverage doubling and halving to multiply larger numbers without calculat
 
 ### The Multiplying by 5, 25, and 50 Shortcuts
 - **Multiplying by 5**: Add a zero (multiply by 10) and divide by 2.
-  - $48 × 5 \rightarrow 480 ÷ 2 = 240$
+  - $48 × 5 \\rightarrow 480 ÷ 2 = 240$
 - **Multiplying by 50**: Add two zeros (multiply by 100) and divide by 2.
-  - $64 × 50 \rightarrow 6400 ÷ 2 = 3200$
+  - $64 × 50 \\rightarrow 6400 ÷ 2 = 3200$
 - **Multiplying by 25**: Add two zeros (multiply by 100) and divide by 4.
-  - $84 × 25 \rightarrow 8400 ÷ 4 = 2100$
+  - $84 × 25 \\rightarrow 8400 ÷ 4 = 2100$
 
 ### Practice Drill Table
 | Question | Traditional Method | Mental Pathway | Answer |
@@ -414,17 +414,17 @@ If calculating $x\%$ of $y$ is difficult, check if calculating $y\%$ of $x$ is e
 
 Let us solve: **16% of 50**
 1. Reverse the numbers:
-   $$\text{Calculate } 50\% \text{ of } 16$$
+   $$\\text{Calculate } 50\\% \\text{ of } 16$$
 2. $50\%$ of a number is simply half of it:
-   $$\text{Half of } 16 = 8$$
-   $$\text{Answer} = 8$$
+   $$\\text{Half of } 16 = 8$$
+   $$\\text{Answer} = 8$$
 
 Let us solve another: **84% of 25**
 1. Reverse the numbers:
-   $$\text{Calculate } 25\% \text{ of } 84$$
+   $$\\text{Calculate } 25\\% \\text{ of } 84$$
 2. $25\%$ of a number is one-quarter of it:
    $$84 ÷ 4 = 21$$
-   $$\text{Answer} = 21$$
+   $$\\text{Answer} = 21$$
 
 ---
 
@@ -446,7 +446,7 @@ Memorizing benchmark fractions and their percentage equivalents allows you to co
 1. Identify the fraction equivalent of $37.5\%$:
    $$37.5\% = 3 × 12.5\% = 3/8$$
 2. Multiply the number by the fraction:
-   $$80 × \frac{3}{8} = (80 ÷ 8) × 3 = 10 × 3 = 30$$
+    $$80 × \\frac{3}{8} = (80 ÷ 8) × 3 = 10 × 3 = 30$$
 
 ---
 

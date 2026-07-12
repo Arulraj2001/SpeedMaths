@@ -1,4 +1,5 @@
 let globalMute = false;
+let globalVolume = 0.5;
 
 export function toggleMute(): boolean {
   globalMute = !globalMute;
@@ -7,6 +8,14 @@ export function toggleMute(): boolean {
 
 export function isMuted(): boolean {
   return globalMute;
+}
+
+export function setVolumeState(percent: number) {
+  globalVolume = percent / 100;
+}
+
+export function getVolumeState(): number {
+  return globalVolume * 100;
 }
 
 function getAudioContext(): AudioContext | null {
@@ -34,7 +43,7 @@ export function playCorrectSound() {
   osc.frequency.setValueAtTime(783.99, now + 0.08);
   osc.frequency.setValueAtTime(1046.50, now + 0.16);
 
-  gain.gain.setValueAtTime(0.12, now);
+  gain.gain.setValueAtTime(0.12 * globalVolume, now);
   gain.gain.exponentialRampToValueAtTime(0.01, now + 0.35);
 
   osc.start(now);
@@ -58,7 +67,7 @@ export function playIncorrectSound() {
   osc.frequency.setValueAtTime(180, now);
   osc.frequency.linearRampToValueAtTime(90, now + 0.25);
 
-  gain.gain.setValueAtTime(0.12, now);
+  gain.gain.setValueAtTime(0.12 * globalVolume, now);
   gain.gain.exponentialRampToValueAtTime(0.01, now + 0.25);
 
   osc.start(now);
@@ -83,7 +92,7 @@ export function playTimeoutSound() {
   osc.frequency.setValueAtTime(0, now + 0.06);
   osc.frequency.setValueAtTime(880, now + 0.12);
 
-  gain.gain.setValueAtTime(0.1, now);
+  gain.gain.setValueAtTime(0.1 * globalVolume, now);
   gain.gain.exponentialRampToValueAtTime(0.01, now + 0.22);
 
   osc.start(now);
@@ -92,3 +101,4 @@ export function playTimeoutSound() {
 export function setMuteState(muted: boolean) {
   globalMute = muted;
 }
+

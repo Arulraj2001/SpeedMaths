@@ -57,59 +57,40 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 // Lightweight custom parser converting Markdown subsets to semantic HTML tags
 function renderMarkdown(content: string) {
-  const sections = content.split("\n\n");
+  const lines = content.split("\n");
+  const elements: React.ReactNode[] = [];
   
-  return sections.map((section, index) => {
-    const trimmed = section.trim();
-    if (!trimmed) return null;
+  let currentList: string[] = [];
+  let currentTable: string[][] = [];
+  let isInsideTable = false;
+  let isInsideList = false;
 
-    // Headings (##)
-    if (trimmed.startsWith("## ")) {
-      return (
-        <h2 key={index} className="text-2xl font-extrabold text-foreground tracking-tight pt-6 pb-2 border-b border-border/10 mt-6">
-          {trimmed.replace("## ", "")}
-        </h2>
-      );
-    }
-
-    // Sub-headings (###)
-    if (trimmed.startsWith("### ")) {
-      return (
-        <h3 key={index} className="text-lg font-bold text-foreground tracking-tight pt-4 pb-1 mt-4">
-          {trimmed.replace("### ", "")}
-        </h3>
-      );
-    }
-
-    // Bullet points lists (- )
-    if (trimmed.startsWith("- ")) {
-      const items = trimmed.split("\n").map(li => li.replace(/^-\s+/, ""));
-      return (
-        <ul key={index} className="list-disc list-inside space-y-2 py-2 pl-4 text-muted-foreground text-sm leading-relaxed">
-          {items.map((item, idx) => (
+  const flushList = (key: string | number) => {
+    if (currentList.length > 0) {
+      elements.push(
+        <ul key={`ul-${key}`} className="list-disc list-outside space-y-2.5 py-3 pl-6 text-foreground/80 dark:text-neutral-300 text-sm md:text-base leading-relaxed my-4">
+          {currentList.map((item, idx) => (
             <li key={idx} dangerouslySetInnerHTML={{ __html: formatInlineMath(item) }} />
           ))}
         </ul>
       );
+      currentList = [];
     }
+    isInsideList = false;
+  };
 
-    // Tables (| )
-    if (trimmed.startsWith("|")) {
-      const rows = trimmed.split("\n").map(row => 
-        row.split("|").map(col => col.trim()).filter((_, i, arr) => i > 0 && i < arr.length - 1)
-      );
+  const flushTable = (key: string | number) => {
+    if (currentTable.length > 0) {
+      const headerRow = currentTable[0];
+      const dataRows = currentTable.slice(2); // Skip separator row
       
-      // Filter separator borders like :--- or ---
-      const headerRow = rows[0];
-      const dataRows = rows.slice(2);
-
-      return (
-        <div key={index} className="border border-border/40 rounded-xl overflow-hidden my-6">
+      elements.push(
+        <div key={`table-${key}`} className="border border-border/40 rounded-xl overflow-hidden my-8 shadow-sm overflow-x-auto print:overflow-visible">
           <table className="w-full border-collapse text-xs md:text-sm font-mono">
             <thead>
               <tr className="bg-secondary/40 border-b border-border/40">
                 {headerRow.map((col, idx) => (
-                  <th key={idx} className="p-3 text-left font-bold text-foreground">{col}</th>
+                  <th key={idx} className="p-3 text-left font-bold text-foreground whitespace-nowrap">{col}</th>
                 ))}
               </tr>
             </thead>
@@ -117,7 +98,7 @@ function renderMarkdown(content: string) {
               {dataRows.map((row, rIdx) => (
                 <tr key={rIdx} className="hover:bg-secondary/20 transition-colors">
                   {row.map((col, cIdx) => (
-                    <td key={cIdx} className="p-3 text-muted-foreground" dangerouslySetInnerHTML={{ __html: formatInlineMath(col) }} />
+                    <td key={cIdx} className="p-3 text-muted-foreground whitespace-nowrap" dangerouslySetInnerHTML={{ __html: formatInlineMath(col) }} />
                   ))}
                 </tr>
               ))}
@@ -125,32 +106,138 @@ function renderMarkdown(content: string) {
           </table>
         </div>
       );
+      currentTable = [];
+    }
+    isInsideTable = false;
+  };
+
+  lines.forEach((line, index) => {
+    const trimmed = line.trim();
+
+    // 1. Handle Table block
+    if (trimmed.startsWith("|")) {
+      if (isInsideList) flushList(index);
+      isInsideTable = true;
+      const cols = line.split("|").map(col => col.trim()).filter((_, idx, arr) => idx > 0 && idx < arr.length - 1);
+      currentTable.push(cols);
+      return;
+    } else {
+      if (isInsideTable) {
+        flushTable(index);
+      }
     }
 
-    // Normal paragraph text
-    return (
-      <p 
-        key={index} 
-        className="text-sm md:text-base text-muted-foreground leading-relaxed my-4" 
-        dangerouslySetInnerHTML={{ __html: formatInlineMath(trimmed) }}
-      />
-    );
+    // 2. Handle Bullet Lists
+    if (trimmed.startsWith("- ") || trimmed.startsWith("* ")) {
+      if (isInsideTable) flushTable(index);
+      isInsideList = true;
+      currentList.push(trimmed.substring(2));
+      return;
+    } else {
+      if (isInsideList) {
+        // If it's a sub-item (e.g. indented or starts with a sub-bullet)
+        if (line.startsWith("  ") || line.startsWith("\t")) {
+          currentList.push(trimmed);
+          return;
+        } else {
+          flushList(index);
+        }
+      }
+    }
+
+    // 3. Handle Headings (##, ###)
+    if (trimmed.startsWith("## ")) {
+      elements.push(
+        <h2 key={index} className="text-2xl md:text-3xl font-extrabold text-foreground tracking-tight pt-8 pb-3 border-b border-border/30 mt-8 mb-4">
+          {trimmed.substring(3)}
+        </h2>
+      );
+      return;
+    }
+    if (trimmed.startsWith("### ")) {
+      elements.push(
+        <h3 key={index} className="text-xl font-bold text-foreground tracking-tight pt-6 pb-2 mt-6 mb-3">
+          {trimmed.substring(4)}
+        </h3>
+      );
+      return;
+    }
+
+    // 4. Handle Horizontal Rule (---)
+    if (trimmed === "---") {
+      elements.push(
+        <hr key={index} className="my-8 border-t border-border/30" />
+      );
+      return;
+    }
+
+    // 5. Handle Paragraphs
+    if (trimmed) {
+      elements.push(
+        <p 
+          key={index} 
+          className="text-base text-foreground/80 dark:text-neutral-300 leading-relaxed my-5 font-sans" 
+          dangerouslySetInnerHTML={{ __html: formatInlineMath(trimmed) }}
+        />
+      );
+    }
   });
+
+  // Flush remaining elements
+  flushList("end");
+  flushTable("end");
+
+  return elements;
 }
 
 // Helper replacing mathematical block symbols to styled code tags
 function formatInlineMath(text: string): string {
   let formatted = text;
   
-  // Replaces inline LaTeX formula blocks like $$x^2$$
-  formatted = formatted.replace(/\$\$(.*?)\$\$/g, '<code class="px-1.5 py-0.5 rounded bg-secondary/80 text-primary font-mono text-xs font-bold">$1</code>');
-  formatted = formatted.replace(/\$(.*?)\$/g, '<code class="px-1.5 py-0.5 rounded bg-secondary/80 text-primary font-mono text-xs font-bold">$1</code>');
-  
   // Replaces bold markers **bold**
   formatted = formatted.replace(/\*\*(.*?)\*\*/g, '<strong class="font-extrabold text-foreground">$1</strong>');
   
   // Replaces code blocks
-  formatted = formatted.replace(/`(.*?)`/g, '<code class="px-1.5 py-0.5 rounded bg-secondary text-primary font-mono text-xs font-semibold">$1</code>');
+  formatted = formatted.replace(/`(.*?)`/g, '<code class="px-2 py-0.5 rounded-md bg-secondary/80 text-primary border border-border/30 font-mono text-[13px] font-semibold">$1</code>');
+
+  const parseMath = (math: string) => {
+    let result = math;
+    
+    // Replace standard spacing
+    result = result.replace(/\\quad/g, " &nbsp;&nbsp;&nbsp;&nbsp; ");
+    
+    // Replace right arrows
+    result = result.replace(/\\rightarrow/g, " → ");
+    
+    // Replace times/div/approx
+    result = result.replace(/\\times/g, " × ");
+    result = result.replace(/\\div/g, " ÷ ");
+    result = result.replace(/\\approx/g, " ≈ ");
+    
+    // Replace percentages
+    result = result.replace(/\\%/g, "%");
+
+    // Replace fractions \frac{numerator}{denominator}
+    // We can replace it with a styled HTML fraction flex block
+    result = result.replace(/\\frac\{(.*?)\}\{(.*?)\}/g, 
+      '<span class="inline-flex flex-col align-middle text-center mx-1"><span class="border-b border-foreground/80 px-1 text-[13px] leading-none">$1</span><span class="text-[13px] leading-none pt-0.5">$2</span></span>'
+    );
+
+    // Replace \text{...}
+    result = result.replace(/\\text\{(.*?)\}/g, '<span class="font-sans font-normal text-muted-foreground">$1</span>');
+
+    return result;
+  };
+
+  // Replace $$...$$ math block with center-aligned, larger font blocks
+  formatted = formatted.replace(/\$\$(.*?)\$\$/g, (_, math) => {
+    return `<div class="my-6 text-center font-mono text-base md:text-lg text-primary bg-secondary/25 border border-border/20 p-4 rounded-xl py-3 px-4 shadow-inner leading-relaxed overflow-x-auto flex justify-center items-center flex-wrap">${parseMath(math)}</div>`;
+  });
+
+  // Replace $...$ inline math block with styled code inline snippets
+  formatted = formatted.replace(/\$(.*?)\$/g, (_, math) => {
+    return `<code class="px-1.5 py-0.5 rounded-md bg-secondary/60 text-primary border border-border/25 font-mono text-[13.5px] font-bold inline-flex items-center flex-wrap">${parseMath(math)}</code>`;
+  });
 
   return formatted;
 }
@@ -194,7 +281,7 @@ export default async function ArticleDetailPage({ params }: Props) {
   const relatedArticles = articles.filter(a => article.related.includes(a.slug));
 
   return (
-    <article className="max-w-4xl mx-auto py-8 px-4 sm:px-6 lg:px-8 space-y-8">
+    <article className="max-w-3xl mx-auto py-8 px-4 sm:px-6 lg:px-8 space-y-8">
       
       {/* Schema Injections */}
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJson) }} />

@@ -49,7 +49,7 @@ export default function BlogIndexPage() {
   };
 
   return (
-    <div className="max-w-6xl mx-auto py-8 px-4 sm:px-6 lg:px-8 space-y-8">
+    <div className="max-w-7xl mx-auto py-8 px-4 sm:px-6 lg:px-8 space-y-8">
       
       {/* JSON-LD injection */}
       <script
@@ -74,7 +74,7 @@ export default function BlogIndexPage() {
       {/* Articles Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {articles.map((article) => (
-          <Card key={article.slug} className="glassmorphism border-border/40 hover:border-primary/20 hover:shadow-lg transition-all flex flex-col justify-between overflow-hidden">
+          <Card key={article.slug} className="glassmorphism border-border/40 hover:border-primary/20 hover:shadow-lg hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between overflow-hidden">
             <CardHeader className="space-y-2 pb-4">
               <div className="flex justify-between items-center text-xs">
                 <Badge variant="outline" className="border-primary/20 text-primary uppercase font-bold text-[9px] tracking-wider">

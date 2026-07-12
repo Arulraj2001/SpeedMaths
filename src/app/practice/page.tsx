@@ -13,7 +13,7 @@ import { Card, CardHeader, CardTitle, CardContent, CardDescription, CardFooter }
 import { useToast } from "@/components/ui/toast";
 import { topics } from "@/data/topics";
 import { generateQuestionsSet, Question } from "@/lib/practice-generator";
-import { playCorrectSound, playIncorrectSound, playTimeoutSound, toggleMute, isMuted } from "@/lib/sound";
+import { playCorrectSound, playIncorrectSound, playTimeoutSound, toggleMute, isMuted, setVolumeState } from "@/lib/sound";
 import { recordSession } from "@/lib/analytics";
 import { useTheme } from "next-themes";
 import { cn } from "@/lib/utils";
@@ -48,71 +48,20 @@ export default function PracticePage() {
   const { toast } = useToast();
   const { theme, setTheme } = useTheme();
 
-  // Config States (initialized synchronously from localStorage)
-  const [selectedTopic, setSelectedTopic] = useState<string>(() => {
-    if (typeof window !== "undefined") {
-      const saved = localStorage.getItem("speedmaths-last-config");
-      if (saved) {
-        try { return JSON.parse(saved).topic || "tables"; } catch {}
-      }
-    }
-    return "tables";
-  });
-  const [selectedMode, setSelectedMode] = useState<string>(() => {
-    if (typeof window !== "undefined") {
-      const saved = localStorage.getItem("speedmaths-last-config");
-      if (saved) {
-        try { return JSON.parse(saved).mode || "practice"; } catch {}
-      }
-    }
-    return "practice";
-  });
-  const [selectedType, setSelectedType] = useState<string>(() => {
-    if (typeof window !== "undefined") {
-      const saved = localStorage.getItem("speedmaths-last-config");
-      if (saved) {
-        try { return JSON.parse(saved).type || "mcq"; } catch {}
-      }
-    }
-    return "mcq";
-  });
-  const [selectedDiff, setSelectedDiff] = useState<string>(() => {
-    if (typeof window !== "undefined") {
-      const saved = localStorage.getItem("speedmaths-last-config");
-      if (saved) {
-        try { return JSON.parse(saved).difficulty || "Medium"; } catch {}
-      }
-    }
-    return "Medium";
-  });
-  const [selectedCount, setSelectedCount] = useState<number>(() => {
-    if (typeof window !== "undefined") {
-      const saved = localStorage.getItem("speedmaths-last-config");
-      if (saved) {
-        try { return parseInt(JSON.parse(saved).count) || 10; } catch {}
-      }
-    }
-    return 10;
-  });
-  const [selectedTimer, setSelectedTimer] = useState<number>(() => {
-    if (typeof window !== "undefined") {
-      const saved = localStorage.getItem("speedmaths-last-config");
-      if (saved) {
-        try {
-          const val = JSON.parse(saved).timer;
-          return val !== undefined ? val : 15;
-        } catch {}
-      }
-    }
-    return 15;
-  });
+  // Config States (defaults for server-side render consistency)
+  const [selectedTopic, setSelectedTopic] = useState<string>("tables");
+  const [selectedMode, setSelectedMode] = useState<string>("practice");
+  const [selectedType, setSelectedType] = useState<string>("mcq");
+  const [selectedDiff, setSelectedDiff] = useState<string>("Medium");
+  const [selectedCount, setSelectedCount] = useState<number>(10);
+  const [selectedTimer, setSelectedTimer] = useState<number>(15);
 
   // Settings Modal states
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
-  const [soundEnabled, setSoundEnabled] = useState(() => !isMuted());
+  const [soundEnabled, setSoundEnabled] = useState(true);
   const [volume, setVolume] = useState<number>(50); // Volume slider percentage
   const [animationsEnabled, setAnimationsEnabled] = useState<boolean>(true);
-  const [muted, setMuted] = useState(() => isMuted());
+  const [muted, setMuted] = useState(false);
 
   // Engine Active States
   const [screen, setScreen] = useState<ScreenState>("CONFIG");
@@ -138,24 +87,8 @@ export default function PracticePage() {
   // Lists & Records
   const [reviewLogs, setReviewLogs] = useState<ReviewItem[]>([]);
   const [mistakesList, setMistakesList] = useState<Question[]>([]);
-  const [globalMistakesCount, setGlobalMistakesCount] = useState<number>(() => {
-    if (typeof window !== "undefined") {
-      const saved = localStorage.getItem("speedmaths-global-mistakes");
-      if (saved) {
-        try { return JSON.parse(saved).length || 0; } catch {}
-      }
-    }
-    return 0;
-  });
-  const [recentHistory, setRecentHistory] = useState<RecentHistoryItem[]>(() => {
-    if (typeof window !== "undefined") {
-      const saved = localStorage.getItem("speedmaths-workout-history");
-      if (saved) {
-        try { return JSON.parse(saved) || []; } catch {}
-      }
-    }
-    return [];
-  });
+  const [globalMistakesCount, setGlobalMistakesCount] = useState<number>(0);
+  const [recentHistory, setRecentHistory] = useState<RecentHistoryItem[]>([]);
 
   // PWA Install Prompt State
   const [pwaInstallPrompt, setPwaInstallPrompt] = useState<BeforeInstallPromptEvent | null>(null);
@@ -168,7 +101,7 @@ export default function PracticePage() {
   const totalProgressBarRef = useRef<HTMLDivElement>(null);
   const animationFrameRef = useRef<number | null>(null);
 
-  // 1. Initial PWA prompt loading
+  // 1. Initial client-side configuration and PWA loading
   useEffect(() => {
     // PWA beforeinstallprompt event tracker
     const handleInstallPrompt = (e: Event) => {
@@ -177,6 +110,43 @@ export default function PracticePage() {
     };
 
     window.addEventListener("beforeinstallprompt", handleInstallPrompt);
+
+    // Sync sound synthesizer settings from context
+    setSoundEnabled(!isMuted());
+    setMuted(isMuted());
+
+    // Load last configuration from localStorage
+    const savedConfig = localStorage.getItem("speedmaths-last-config");
+    if (savedConfig) {
+      try {
+        const parsed = JSON.parse(savedConfig);
+        if (parsed.topic) setSelectedTopic(parsed.topic);
+        if (parsed.mode) setSelectedMode(parsed.mode);
+        if (parsed.type) setSelectedType(parsed.type);
+        if (parsed.difficulty) setSelectedDiff(parsed.difficulty);
+        if (parsed.count !== undefined) setSelectedCount(parseInt(parsed.count) || 10);
+        if (parsed.timer !== undefined) setSelectedTimer(parsed.timer);
+      } catch {}
+    }
+
+    // Load global mistakes count
+    const savedMistakes = localStorage.getItem("speedmaths-global-mistakes");
+    if (savedMistakes) {
+      try {
+        const parsed = JSON.parse(savedMistakes);
+        setGlobalMistakesCount(parsed.length || 0);
+      } catch {}
+    }
+
+    // Load recent history list
+    const savedHistory = localStorage.getItem("speedmaths-workout-history");
+    if (savedHistory) {
+      try {
+        const parsed = JSON.parse(savedHistory);
+        setRecentHistory(parsed || []);
+      } catch {}
+    }
+
     return () => window.removeEventListener("beforeinstallprompt", handleInstallPrompt);
   }, []);
 
@@ -191,6 +161,11 @@ export default function PracticePage() {
       }
     }
   }, [animationsEnabled]);
+
+  // Sync volume state to audio synthesizer player
+  useEffect(() => {
+    setVolumeState(volume);
+  }, [volume]);
 
   // 2. Active Game Loop Countdown Timer Effects
   useEffect(() => {
@@ -1335,19 +1310,27 @@ export default function PracticePage() {
 
       {/* 4. SYSTEM OPTIONS SETTINGS MODAL */}
       {isSettingsOpen && (
-        <div className="fixed inset-0 z-50 bg-background/80 backdrop-blur-sm flex items-center justify-center p-4">
-          <Card className="w-full max-w-md border border-border shadow-2xl relative bg-card">
+        <div
+          onClick={() => setIsSettingsOpen(false)}
+          className="fixed inset-0 z-50 bg-background/80 backdrop-blur-sm flex items-center justify-center p-4 cursor-pointer"
+        >
+          <Card
+            onClick={(e) => e.stopPropagation()}
+            className="w-full max-w-md border border-border shadow-2xl relative bg-card cursor-default"
+          >
             
-            <button
-              onClick={() => setIsSettingsOpen(false)}
-              className="absolute top-4 right-4 h-8 w-8 hover:bg-secondary rounded-lg flex items-center justify-center cursor-pointer text-muted-foreground hover:text-foreground transition-all"
-            >
-              <X className="h-4 w-4" />
-            </button>
-
-            <CardHeader className="border-b border-border/20 pb-4">
-              <CardTitle className="text-lg font-bold">System Configuration</CardTitle>
-              <CardDescription className="text-xs">Adjust sound synthesizers, theme switches, and layout parameters.</CardDescription>
+            <CardHeader className="border-b border-border/20 pb-4 flex flex-row items-start justify-between">
+              <div className="space-y-1">
+                <CardTitle className="text-lg font-bold">System Configuration</CardTitle>
+                <CardDescription className="text-xs">Adjust sound synthesizers, theme switches, and layout parameters.</CardDescription>
+              </div>
+              <button
+                onClick={() => setIsSettingsOpen(false)}
+                className="h-8 w-8 hover:bg-secondary rounded-lg flex items-center justify-center cursor-pointer text-muted-foreground hover:text-foreground transition-all flex-shrink-0 -mt-1 -mr-1"
+                aria-label="Close settings"
+              >
+                <X className="h-4 w-4" />
+              </button>
             </CardHeader>
 
             <CardContent className="p-6 space-y-6">
@@ -1377,7 +1360,9 @@ export default function PracticePage() {
                     max="100"
                     value={muted ? 0 : volume}
                     onChange={(e) => {
-                      setVolume(parseInt(e.target.value));
+                      const val = parseInt(e.target.value);
+                      setVolume(val);
+                      setVolumeState(val);
                       if (muted) handleMuteToggle();
                     }}
                     className="flex-1 h-1.5 bg-secondary rounded-lg appearance-none cursor-pointer accent-primary"

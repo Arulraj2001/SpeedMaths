@@ -83,7 +83,7 @@ export default function CubesPage() {
   }, [items, search, bookmarks, onlyBookmarks]);
 
   return (
-    <div className="space-y-6">
+    <div className="max-w-7xl mx-auto px-4 py-8 sm:px-6 lg:px-8 space-y-6">
       
       {/* Page Title details */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 print:hidden">

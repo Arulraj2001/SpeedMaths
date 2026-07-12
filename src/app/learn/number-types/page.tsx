@@ -31,7 +31,7 @@ export default function NumberTypesIndexPage() {
   }, [search]);
 
   return (
-    <div className="space-y-6">
+    <div className="max-w-7xl mx-auto px-4 py-8 sm:px-6 lg:px-8 space-y-6">
       
       {/* Header */}
       <div>
