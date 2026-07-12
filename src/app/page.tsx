@@ -136,7 +136,7 @@ export default function Home() {
             className="inline-flex items-center gap-2 rounded-full border border-primary/20 bg-primary/5 px-4 py-1.5 text-xs sm:text-sm font-semibold text-primary"
           >
             <Sparkles className="h-4 w-4" />
-            <span>Introducing Phase 1 Sandbox UI</span>
+            <span>Free Mental Math Training Platform</span>
           </motion.div>
 
           <motion.h1
