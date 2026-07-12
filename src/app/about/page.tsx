@@ -32,18 +32,18 @@ export default function AboutPage() {
         <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-tr from-primary to-violet-600 shadow-md mx-auto mb-2">
           <Sparkles className="h-6 w-6 text-white" />
         </div>
-        <h1 className="text-3xl md:text-4xl font-extrabold tracking-tight">Our Mission & Philosophy</h1>
+        <h1 className="text-3xl md:text-4xl font-extrabold tracking-tight">About SpeedMaths</h1>
         <p className="text-sm md:text-base text-muted-foreground leading-relaxed">
-          Unlocking human computational potential through design-driven training tools.
+          A free mental math practice platform built to help students get genuinely faster at arithmetic.
         </p>
       </div>
 
       {/* Intro section */}
       <Card className="glassmorphism border-border/40 p-6 md:p-8 space-y-6">
         <div className="space-y-3">
-          <h2 className="text-xl font-extrabold text-foreground">Why SpeedMaths Exists</h2>
+          <h2 className="text-xl font-extrabold text-foreground">Why We Built This</h2>
           <p className="text-sm text-muted-foreground leading-relaxed">
-            In an era of calculators and artificial intelligence, mental math remains a fundamental cognitive anchor. Traditional schooling often emphasizes paper-and-pencil columns, which restrict computation to writing. SpeedMaths exists to liberate calculations from paper, teaching students and professionals how to decompose numbers and process math mentally from left to right.
+            Most students learn arithmetic using paper-and-pencil methods — writing columns, carrying digits, working right to left. These methods are fine on paper, but they don&apos;t work well in your head. SpeedMaths teaches a different approach: breaking numbers apart and calculating left to right, the way your brain naturally processes information. The result is faster, more confident mental math.
           </p>
         </div>
 
@@ -54,7 +54,7 @@ export default function AboutPage() {
               <span>Our Mission</span>
             </div>
             <p className="text-xs md:text-sm text-muted-foreground leading-relaxed">
-              To build the world&apos;s most accessible, latency-free training playground for mental calculations, allowing students globally to sharpen their minds, reduce exam anxiety, and master numbers.
+              To create the most accessible and effective mental math training tool available online — free for every student, with no registration or paywalls.
             </p>
           </div>
           <div className="space-y-2">
@@ -63,7 +63,7 @@ export default function AboutPage() {
               <span>Our Vision</span>
             </div>
             <p className="text-xs md:text-sm text-muted-foreground leading-relaxed">
-              A future where quantitative confidence is universal. We aim to equip school students, standardized test candidates (SAT/GMAT/CAT), and STEM professionals with lightning-fast numerical intuition.
+              Every student should feel confident with numbers. Whether you&apos;re preparing for the SAT, GMAT, CAT, or just want to calculate tips without pulling out your phone, we want to help you get there.
             </p>
           </div>
         </div>
@@ -71,30 +71,30 @@ export default function AboutPage() {
 
       {/* Learning philosophy */}
       <div className="space-y-6">
-        <h2 className="text-2xl font-extrabold text-foreground text-center">The Learning Philosophy</h2>
+        <h2 className="text-2xl font-extrabold text-foreground text-center">How We Teach Mental Math</h2>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           
           <div className="p-5 rounded-xl border border-border bg-secondary/15 space-y-3">
             <div className="h-8 w-8 rounded-lg bg-primary/10 text-primary flex items-center justify-center font-bold text-sm">1</div>
-            <span className="block font-bold text-sm text-foreground">Active Decomposition</span>
+            <span className="block font-bold text-sm text-foreground">Break Numbers Down</span>
             <p className="text-xs text-muted-foreground leading-relaxed">
-              We teach users to break numbers down into smaller algebraic chunks (e.g. $47 × 8$ as $40 × 8 + 7 × 8$) rather than using rote memorization.
+              Instead of solving 47 × 8 as a column problem, break it into 40 × 8 + 7 × 8 = 320 + 56 = 376. This works entirely in your head with no paper needed.
             </p>
           </div>
 
           <div className="p-5 rounded-xl border border-border bg-secondary/15 space-y-3">
             <div className="h-8 w-8 rounded-lg bg-primary/10 text-primary flex items-center justify-center font-bold text-sm">2</div>
-            <span className="block font-bold text-sm text-foreground">Pattern Recognition</span>
+            <span className="block font-bold text-sm text-foreground">Spot the Shortcut</span>
             <p className="text-xs text-muted-foreground leading-relaxed">
-              Using Vedic Maths Sutras, students learn to spot shortcuts like numbers ending in 5 or differences of squares to skip calculations.
+              Many calculations have hidden shortcuts. Squaring a number ending in 5? Multiply the tens digit by the next number and append 25. Multiplying 98 × 97? Use 100 as a base. We teach you to see these patterns.
             </p>
           </div>
 
           <div className="p-5 rounded-xl border border-border bg-secondary/15 space-y-3">
             <div className="h-8 w-8 rounded-lg bg-primary/10 text-primary flex items-center justify-center font-bold text-sm">3</div>
-            <span className="block font-bold text-sm text-foreground">Consistency Heatmaps</span>
+            <span className="block font-bold text-sm text-foreground">Practice Daily, Even Briefly</span>
             <p className="text-xs text-muted-foreground leading-relaxed">
-              Neuroplasticity requires daily stimulation. Our dashboard uses streak tracking and grids to build long-term math habits.
+              Five minutes of daily practice is more effective than an hour once a week. Our streak counter and daily heatmap help you build a habit that sticks.
             </p>
           </div>
 
@@ -103,11 +103,11 @@ export default function AboutPage() {
 
       {/* How students benefit */}
       <Card className="border-border bg-card p-6 md:p-8 space-y-4">
-        <h3 className="text-lg font-bold text-foreground">How Candidates & Students Benefit</h3>
+        <h3 className="text-lg font-bold text-foreground">Who Is This For?</h3>
         <ul className="list-disc list-inside space-y-2.5 text-xs md:text-sm text-muted-foreground leading-relaxed">
-          <li><strong>Competitive Exams (SAT/GMAT/GRE/CAT)</strong>: Eliminate multiple-choice options in seconds using units digit analysis and digit sum checks.</li>
-          <li><strong>Academic Performance</strong>: Higher grades in science and math by converting arithmetic into a fast background reflex.</li>
-          <li><strong>Cognitive Agility</strong>: Daily mathematical stimulation builds stronger short-term memory capacity and enhances logic processing speed.</li>
+          <li><strong>Exam students (SAT, GMAT, GRE, CAT, Banking)</strong>: Save time on quantitative sections by calculating mentally instead of on paper. Eliminate wrong multiple-choice answers using units digit checks.</li>
+          <li><strong>School and college students</strong>: Build a strong number sense that makes math class less stressful and helps you check your work faster.</li>
+          <li><strong>Anyone who wants to be better with numbers</strong>: Calculate tips, discounts, measurements, and budgets confidently without needing a calculator app.</li>
         </ul>
       </Card>
 

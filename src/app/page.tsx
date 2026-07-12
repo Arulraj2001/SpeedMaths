@@ -65,10 +65,10 @@ export default function Home() {
   };
 
   const stats = [
-    { label: "Calculations Solved", value: "8,419,250+" },
-    { label: "Active Mind Trainers", value: "48,200+" },
-    { label: "Avg Speed Improvement", value: "3.4x" },
-    { label: "Ideal Recall Time", value: "< 1.5s" },
+    { label: "Math Topics Covered", value: "11" },
+    { label: "Practice Questions", value: "10,000+" },
+    { label: "Difficulty Levels", value: "4" },
+    { label: "Cost to Use", value: "Free" },
   ];
 
   const faqs = [
@@ -145,9 +145,9 @@ export default function Home() {
             transition={{ duration: 0.6, delay: 0.1 }}
             className="text-4xl font-extrabold tracking-tight sm:text-5xl md:text-6xl max-w-4xl mx-auto leading-tight"
           >
-            Supercharge Your Mental Calculation{" "}
+            Get Faster at Math{" "}
             <span className="bg-gradient-to-r from-primary via-indigo-500 to-teal-500 bg-clip-text text-transparent">
-              Speed & Recall
+              in Your Head
             </span>
           </motion.h1>
 
@@ -157,7 +157,7 @@ export default function Home() {
             transition={{ duration: 0.6, delay: 0.2 }}
             className="mx-auto max-w-2xl text-base sm:text-lg md:text-xl text-muted-foreground leading-relaxed"
           >
-            SpeedMaths is a high-performance training deck built for professionals, students, and competitors. Master times tables, squares, power limits, and fractions under a responsive, premium UI.
+            Practice multiplication tables, squares, cubes, fractions, and more — with timed drills, adaptive difficulty, and progress tracking. No signup needed. Just open and start practicing.
           </motion.p>
 
           <motion.div
@@ -195,10 +195,10 @@ export default function Home() {
       <section id="features" className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8 border-t border-border/20 scroll-mt-16">
         <div className="text-center space-y-4 mb-12">
           <h2 className="text-3xl font-bold tracking-tight sm:text-4xl">
-            Built for Extreme Mental Performance
+            Everything You Need to Practice
           </h2>
           <p className="mx-auto max-w-xl text-muted-foreground">
-            Explore premium features designed to eliminate computational friction and elevate processing.
+            A complete set of tools designed to make daily math practice quick, effective, and genuinely useful.
           </p>
         </div>
 
@@ -208,9 +208,9 @@ export default function Home() {
               <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-primary/10 text-primary mb-4">
                 <Keyboard className="h-6 w-6" />
               </div>
-              <CardTitle>Keyboard Driven</CardTitle>
+              <CardTitle>Keyboard Shortcuts</CardTitle>
               <CardDescription className="pt-2 leading-relaxed">
-                Open search parameters and toggle topics instantly using the Command Palette shortcut (<kbd className="rounded border bg-muted px-1 text-xs">Ctrl+K</kbd>).
+                Navigate topics and answer questions without touching the mouse. Press <kbd className="rounded border bg-muted px-1 text-xs">Ctrl+K</kbd> to open the command palette and jump anywhere instantly.
               </CardDescription>
             </CardHeader>
           </Card>
@@ -220,9 +220,9 @@ export default function Home() {
               <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-teal-500/10 text-teal-600 dark:text-teal-400 mb-4">
                 <Zap className="h-6 w-6" />
               </div>
-              <CardTitle>Mental Sandbox</CardTitle>
+              <CardTitle>Learn Before You Practice</CardTitle>
               <CardDescription className="pt-2 leading-relaxed">
-                Review preparation guides and master mental shortcuts. Expand decimal-to-fraction or prime number characteristics seamlessly.
+                Browse reference tables, fraction-to-decimal charts, and number type guides. Understand the patterns first, then drill them until they stick.
               </CardDescription>
             </CardHeader>
           </Card>
@@ -232,9 +232,9 @@ export default function Home() {
               <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-amber-500/10 text-amber-600 dark:text-amber-400 mb-4">
                 <BarChart3 className="h-6 w-6" />
               </div>
-              <CardTitle>Progress Tracking</CardTitle>
+              <CardTitle>Track Your Progress</CardTitle>
               <CardDescription className="pt-2 leading-relaxed">
-                Unlock detailed charts detailing accuracy trends, average response latency, daily drills logs, and percentile milestones.
+                See your accuracy, speed, and streak history on interactive charts. A daily heatmap shows your consistency, and achievement badges keep you motivated.
               </CardDescription>
             </CardHeader>
           </Card>
@@ -245,10 +245,10 @@ export default function Home() {
       <section id="topics" className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8 border-t border-border/20 scroll-mt-16">
         <div className="text-center space-y-4 mb-12">
           <h2 className="text-3xl font-bold tracking-tight sm:text-4xl">
-            Choose Your Practice Field
+            Pick a Topic and Start
           </h2>
           <p className="mx-auto max-w-xl text-muted-foreground">
-            Explore 11 customized calculation topics tailored across varying difficulty thresholds.
+            11 math topics from basic addition to advanced number types. Each one has reference tables, practice drills, and difficulty levels.
           </p>
         </div>
 
@@ -303,10 +303,10 @@ export default function Home() {
           
           <div className="lg:col-span-1 space-y-4">
             <h2 className="text-3xl font-bold tracking-tight sm:text-4xl">
-              Why Speed Mental Arithmetic?
+              Why Practice Mental Math?
             </h2>
             <p className="text-muted-foreground leading-relaxed">
-              Calculators solve equations, but a fast mind changes how you think. Develop sharp focus and lightning quick recall speeds that stay with you.
+              A calculator gives you answers. Mental math gives you understanding. When numbers feel intuitive, everything from exams to everyday decisions gets easier.
             </p>
           </div>
 
@@ -316,9 +316,9 @@ export default function Home() {
                 <Brain className="h-5 w-5" />
               </div>
               <div>
-                <h3 className="font-bold text-base">Cognitive Agility</h3>
+                <h3 className="font-bold text-base">Sharper Thinking</h3>
                 <p className="mt-1.5 text-sm text-muted-foreground leading-relaxed">
-                  Enhance spatial memory, logical reasoning capabilities, and split-second quantitative choices.
+                  Regular mental math practice strengthens working memory and pattern recognition — skills that transfer to problem solving, coding, and logical reasoning.
                 </p>
               </div>
             </div>
@@ -328,9 +328,9 @@ export default function Home() {
                 <Target className="h-5 w-5" />
               </div>
               <div>
-                <h3 className="font-bold text-base">Test Preparation</h3>
+                <h3 className="font-bold text-base">Better Exam Scores</h3>
                 <p className="mt-1.5 text-sm text-muted-foreground leading-relaxed">
-                  Earn a competitive advantage in GRE, GMAT, CAT, and business interview math assessment tests.
+                  Students who calculate mentally save 30–60 seconds per question on exams like the SAT, GRE, GMAT, CAT, and banking tests. That adds up to 10+ extra questions per section.
                 </p>
               </div>
             </div>
@@ -340,9 +340,9 @@ export default function Home() {
                 <Award className="h-5 w-5" />
               </div>
               <div>
-                <h3 className="font-bold text-base">Technical Confidence</h3>
+                <h3 className="font-bold text-base">Confidence With Numbers</h3>
                 <p className="mt-1.5 text-sm text-muted-foreground leading-relaxed">
-                  Understand logs, complexity bounds, equations, and factorizations in coding reviews quickly.
+                  No more reaching for your phone to calculate a tip or verify a discount. When you trust your own arithmetic, you make faster and better decisions.
                 </p>
               </div>
             </div>
@@ -352,9 +352,9 @@ export default function Home() {
                 <Sparkles className="h-5 w-5" />
               </div>
               <div>
-                <h3 className="font-bold text-base">Daily Utility</h3>
+                <h3 className="font-bold text-base">Just 10 Minutes a Day</h3>
                 <p className="mt-1.5 text-sm text-muted-foreground leading-relaxed">
-                  Calculate tips, compute bill splits, verify sales discounts, and manage investments without drawing tools.
+                  You don't need hour-long study sessions. Short daily practice builds stronger recall than occasional cramming. Most users see real improvement within two weeks.
                 </p>
               </div>
             </div>
@@ -389,7 +389,7 @@ export default function Home() {
             Frequently Asked Questions
           </h2>
           <p className="text-muted-foreground">
-            Clear responses to typical speed math workout queries.
+            Common questions about how SpeedMaths works and how to get the most out of your practice.
           </p>
         </div>
 
@@ -444,10 +444,10 @@ export default function Home() {
 
           <div className="relative z-10 max-w-2xl mx-auto space-y-6">
             <h2 className="text-3xl font-extrabold tracking-tight sm:text-4xl md:text-5xl">
-              Ready to Upgrade Your Recall?
+              Start Practicing Now
             </h2>
             <p className="text-base sm:text-lg text-indigo-100/90 leading-relaxed">
-              Start building your mental scratchpad today. Open the Topic Cards and check the shortcuts. Sandbox practice awaits.
+              No account needed. No credit card. Just pick a topic and start solving. Your progress saves automatically in your browser.
             </p>
             <div className="pt-4">
               <Button
@@ -460,7 +460,7 @@ export default function Home() {
                 }}
                 rightIcon={<ArrowRight className="h-5 w-5" />}
               >
-                Explore Topics Now
+                Start Free Practice
               </Button>
             </div>
           </div>
@@ -472,7 +472,7 @@ export default function Home() {
         isOpen={activeTopic !== null}
         onClose={() => setActiveTopic(null)}
         title={activeTopic?.title || ""}
-        description="Review the preparation drills, tricks, and formulas before starting math workouts."
+        description="Review the reference material, shortcuts, and example questions for this topic."
       >
         {activeTopic && (
           <div className="space-y-6">
@@ -485,7 +485,7 @@ export default function Home() {
             {/* Preparation Tips */}
             <div className="space-y-2.5">
               <h4 className="text-sm font-bold uppercase tracking-wider text-muted-foreground">
-                Mental Arithmetic Shortcuts
+                Tips & Shortcuts
               </h4>
               <ul className="space-y-2 text-sm text-foreground">
                 {activeTopic.preparationTips.map((tip, index) => (
@@ -522,7 +522,7 @@ export default function Home() {
                 className="w-full"
                 onClick={() => handleStartPracticeMock(activeTopic.title)}
               >
-                Launch Speed Drill
+                Start Practicing
               </Button>
             </div>
           </div>
