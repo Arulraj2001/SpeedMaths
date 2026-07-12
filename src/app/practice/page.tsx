@@ -32,6 +32,9 @@ interface RecentHistoryItem {
   topicTitle: string;
   mode: string;
   difficulty: string;
+  type?: string;
+  count?: number;
+  timer?: number;
   date: string;
 }
 
@@ -343,8 +346,35 @@ export default function PracticePage() {
   };
 
   // Launch Session
-  function handleLaunch(drillType: "STANDARD" | "SESSION_MISTAKES" | "GLOBAL_MISTAKES" = "STANDARD") {
+  function handleLaunch(
+    drillType: "STANDARD" | "SESSION_MISTAKES" | "GLOBAL_MISTAKES" = "STANDARD",
+    overrides?: {
+      topic?: string;
+      mode?: string;
+      type?: string;
+      difficulty?: string;
+      count?: number;
+      timer?: number;
+    }
+  ) {
     let questionSet: Question[] = [];
+
+    // Sync state variables if overrides are supplied
+    if (overrides) {
+      if (overrides.topic !== undefined) setSelectedTopic(overrides.topic);
+      if (overrides.mode !== undefined) setSelectedMode(overrides.mode);
+      if (overrides.type !== undefined) setSelectedType(overrides.type);
+      if (overrides.difficulty !== undefined) setSelectedDiff(overrides.difficulty);
+      if (overrides.count !== undefined) setSelectedCount(overrides.count);
+      if (overrides.timer !== undefined) setSelectedTimer(overrides.timer);
+    }
+
+    const activeTopic = overrides?.topic ?? selectedTopic;
+    const activeMode = overrides?.mode ?? selectedMode;
+    const activeType = overrides?.type ?? selectedType;
+    const activeDiff = overrides?.difficulty ?? selectedDiff;
+    const activeCount = overrides?.count ?? selectedCount;
+    const activeTimer = overrides?.timer ?? selectedTimer;
 
     if (drillType === "GLOBAL_MISTAKES") {
       const saved = localStorage.getItem("speedmaths-global-mistakes");
@@ -365,7 +395,7 @@ export default function PracticePage() {
       toast(`Session Mistakes Drill: ${questionSet.length} questions.`, "info");
     } else {
       // Seeded random for Daily Challenge using Calendar Date
-      if (selectedMode === "daily") {
+      if (activeMode === "daily") {
         setSelectedTopic("shuffle");
         setSelectedType("mcq");
         setSelectedDiff("Adaptive");
@@ -377,20 +407,20 @@ export default function PracticePage() {
         toast("Daily Challenge Loaded: Seeded using Calendar Date.", "success");
       } else {
         questionSet = generateQuestionsSet(
-          selectedTopic,
-          selectedDiff as "Easy" | "Medium" | "Hard" | "Adaptive" | "Random",
-          selectedCount
+          activeTopic,
+          activeDiff as "Easy" | "Medium" | "Hard" | "Adaptive" | "Random",
+          activeCount
         );
       }
 
       // Save Last used configuration
       localStorage.setItem("speedmaths-last-config", JSON.stringify({
-        topic: selectedTopic,
-        mode: selectedMode,
-        type: selectedType,
-        difficulty: selectedDiff,
-        count: selectedCount,
-        timer: selectedTimer
+        topic: activeTopic,
+        mode: activeMode,
+        type: activeType,
+        difficulty: activeDiff,
+        count: activeCount,
+        timer: activeTimer
       }));
     }
 
@@ -407,10 +437,10 @@ export default function PracticePage() {
     setReviewLogs([]);
     setHintVisible(false);
 
-    const initialLives = (selectedMode === "exam" || selectedMode === "challenge" || selectedMode === "daily") ? 3 : 999;
+    const initialLives = (activeMode === "exam" || activeMode === "challenge" || activeMode === "daily") ? 3 : 999;
     setLives(initialLives);
 
-    setTimeLeft(selectedTimer);
+    setTimeLeft(activeTimer);
     setTotalTimeLeft(60);
 
     setScreen("ENGINE");
@@ -553,6 +583,9 @@ export default function PracticePage() {
         topicTitle: title,
         mode: selectedMode,
         difficulty: selectedDiff,
+        type: selectedType,
+        count: selectedCount,
+        timer: selectedTimer,
         date: new Date().toLocaleDateString(),
       };
       
@@ -791,10 +824,23 @@ export default function PracticePage() {
                   <div 
                     key={idx}
                     onClick={() => {
-                      setSelectedTopic(item.topicId);
-                      setSelectedMode(item.mode);
-                      setSelectedDiff(item.difficulty);
-                      toast(`Loaded setup: ${item.topicTitle}. Launch to start!`, "info");
+                      const overrides = {
+                        topic: item.topicId,
+                        mode: item.mode,
+                        difficulty: item.difficulty,
+                        type: item.type || selectedType,
+                        count: item.count || selectedCount,
+                        timer: item.timer !== undefined ? item.timer : selectedTimer,
+                      };
+                      
+                      setSelectedTopic(overrides.topic);
+                      setSelectedMode(overrides.mode);
+                      setSelectedDiff(overrides.difficulty);
+                      setSelectedType(overrides.type);
+                      setSelectedCount(overrides.count);
+                      setSelectedTimer(overrides.timer);
+                      
+                      handleLaunch("STANDARD", overrides);
                     }}
                     className="p-3 border border-border/50 rounded-lg bg-secondary/20 hover:bg-secondary/40 cursor-pointer transition-all flex items-center justify-between text-xs"
                   >
