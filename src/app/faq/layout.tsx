@@ -1,17 +1,18 @@
 import { Metadata } from "next";
+import { SITE_URL } from "@/lib/seo";
 
 export const metadata: Metadata = {
-  title: "FAQ — Frequently Asked Questions",
+  title: "SpeedMaths FAQ",
   description:
-    "Find answers to common questions about SpeedMaths. Learn how practice modes work, how data is stored locally, keyboard shortcuts, PWA offline support, and more.",
+    "Answers to common questions about mental math practice, learning methods, progress tracking, privacy, and offline use.",
   alternates: {
-    canonical: "https://speedmaths.com/faq",
+    canonical: `${SITE_URL}/faq`,
   },
   openGraph: {
-    title: "FAQ — Frequently Asked Questions",
+    title: "SpeedMaths FAQ",
     description:
-      "Answers to 20+ common questions about mental math practice, data privacy, offline support, and keyboard shortcuts on SpeedMaths.",
-    url: "https://speedmaths.com/faq",
+      "Answers to common questions about mental math practice, data privacy, keyboard shortcuts, and offline support.",
+    url: `${SITE_URL}/faq`,
   },
 };
 

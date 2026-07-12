@@ -5,24 +5,21 @@ import { Card } from "@/components/ui/card";
 import { articles } from "@/data/blog";
 import { numberTypes } from "@/data/number-types";
 import { Metadata } from "next";
+import { SITE_URL, buildBreadcrumbSchema } from "@/lib/seo";
 
 export const metadata: Metadata = {
-  title: "HTML Sitemap - SpeedMaths Directory",
-  description: "Browse the visual directory of SpeedMaths. Access times tables, squares, cubes, exponents charts, number types dictionary cards, and mental calculation tutorials.",
+  title: "SpeedMaths Sitemap",
+  description: "Browse the SpeedMaths directory of practice tools, learning pages, number charts, and mental math tutorials.",
   alternates: {
-    canonical: "https://speedmaths.com/sitemap"
+    canonical: `${SITE_URL}/sitemap`
   }
 };
 
 export default function HtmlSitemapPage() {
-  const breadcrumbJson = {
-    "@context": "https://schema.org",
-    "@type": "BreadcrumbList",
-    "itemListElement": [
-      { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://speedmaths.com" },
-      { "@type": "ListItem", "position": 2, "name": "Sitemap", "item": "https://speedmaths.com/sitemap" }
-    ]
-  };
+  const breadcrumbJson = buildBreadcrumbSchema([
+    { name: "Home", url: "/" },
+    { name: "Sitemap", url: "/sitemap" },
+  ]);
 
   return (
     <div className="max-w-5xl mx-auto py-8 px-4 sm:px-6 lg:px-8 space-y-12">

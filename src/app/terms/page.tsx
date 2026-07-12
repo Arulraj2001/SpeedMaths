@@ -2,12 +2,13 @@ import React from "react";
 import { Gavel, Scale } from "lucide-react";
 import { Card } from "@/components/ui/card";
 import { Metadata } from "next";
+import { SITE_URL } from "@/lib/seo";
 
 export const metadata: Metadata = {
   title: "Terms & Conditions - SpeedMaths Platform",
   description: "Read the Terms & Conditions for the SpeedMaths speed math platform. Access user conduct policies, warranties, and educational disclaimers.",
   alternates: {
-    canonical: "https://speedmaths.com/terms"
+    canonical: `${SITE_URL}/terms`
   }
 };
 
@@ -16,8 +17,8 @@ export default function TermsPage() {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
     "itemListElement": [
-      { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://speedmaths.com" },
-      { "@type": "ListItem", "position": 2, "name": "Terms & Conditions", "item": "https://speedmaths.com/terms" }
+      { "@type": "ListItem", "position": 1, "name": "Home", "item": `${SITE_URL}` },
+      { "@type": "ListItem", "position": 2, "name": "Terms & Conditions", "item": `${SITE_URL}/terms` }
     ]
   };
 

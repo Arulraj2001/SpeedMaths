@@ -1,17 +1,18 @@
 import { Metadata } from "next";
+import { SITE_URL } from "@/lib/seo";
 
 export const metadata: Metadata = {
-  title: "Practice Mental Math — Interactive Drill Engine",
+  title: "Practice Mental Math",
   description:
-    "Practice multiplication, division, squares, cubes, fractions, and mixed operations with adaptive difficulty, timed challenges, MCQ, flashcards, and streak tracking.",
+    "Practice multiplication, division, squares, cubes, fractions, and mixed operations with timed challenges, adaptive difficulty, and streak tracking.",
   alternates: {
-    canonical: "https://speedmaths.com/practice",
+    canonical: `${SITE_URL}/practice`,
   },
   openGraph: {
-    title: "Practice Mental Math — Interactive Drill Engine",
+    title: "Practice Mental Math",
     description:
-      "Sharpen your mental math with customizable drills. Choose topics, difficulty, timer, and question types including MCQ, True/False, and flashcards.",
-    url: "https://speedmaths.com/practice",
+      "Sharpen your mental math with customizable drills, topic selection, timers, and question formats.",
+    url: `${SITE_URL}/practice`,
   },
 };
 

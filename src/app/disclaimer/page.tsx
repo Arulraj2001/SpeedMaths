@@ -2,12 +2,13 @@ import React from "react";
 import { Info, AlertTriangle } from "lucide-react";
 import { Card } from "@/components/ui/card";
 import { Metadata } from "next";
+import { SITE_URL } from "@/lib/seo";
 
 export const metadata: Metadata = {
   title: "Disclaimer - SpeedMaths Platform",
   description: "Read the Disclaimer for SpeedMaths. Learn about our calculation accuracy warranties, advertisement disclosures, and educational intent.",
   alternates: {
-    canonical: "https://speedmaths.com/disclaimer"
+    canonical: `${SITE_URL}/disclaimer`
   }
 };
 
@@ -16,8 +17,8 @@ export default function DisclaimerPage() {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
     "itemListElement": [
-      { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://speedmaths.com" },
-      { "@type": "ListItem", "position": 2, "name": "Disclaimer", "item": "https://speedmaths.com/disclaimer" }
+      { "@type": "ListItem", "position": 1, "name": "Home", "item": `${SITE_URL}` },
+      { "@type": "ListItem", "position": 2, "name": "Disclaimer", "item": `${SITE_URL}/disclaimer` }
     ]
   };
 

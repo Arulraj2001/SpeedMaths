@@ -2,12 +2,13 @@ import React from "react";
 import { Mail } from "lucide-react";
 import { ContactForm } from "@/components/contact-form";
 import { Metadata } from "next";
+import { SITE_URL } from "@/lib/seo";
 
 export const metadata: Metadata = {
-  title: "Contact Us - SpeedMaths Platform",
-  description: "Get in touch with the SpeedMaths team. Submit platform suggestions, report bugs, ask school integration details, or find social channels links.",
+  title: "Contact SpeedMaths",
+  description: "Send feedback, report bugs, or ask about using SpeedMaths for practice and school learning support.",
   alternates: {
-    canonical: "https://speedmaths.com/contact"
+    canonical: `${SITE_URL}/contact`
   }
 };
 
@@ -16,8 +17,8 @@ export default function ContactPage() {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
     "itemListElement": [
-      { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://speedmaths.com" },
-      { "@type": "ListItem", "position": 2, "name": "Contact", "item": "https://speedmaths.com/contact" }
+      { "@type": "ListItem", "position": 1, "name": "Home", "item": `${SITE_URL}` },
+      { "@type": "ListItem", "position": 2, "name": "Contact SpeedMaths", "item": `${SITE_URL}/contact` }
     ]
   };
 

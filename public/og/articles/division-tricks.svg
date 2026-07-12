@@ -1,0 +1,16 @@
+<svg width="1200" height="630" viewBox="0 0 1200 630" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1200" y2="630" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#111827"/>
+      <stop offset="0.5" stop-color="#2563EB"/>
+      <stop offset="1" stop-color="#0F766E"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="630" rx="48" fill="url(#bg)"/>
+  <circle cx="998" cy="115" r="160" fill="white" fill-opacity="0.08"/>
+  <text x="88" y="142" fill="#BFDBFE" font-family="Arial, Helvetica, sans-serif" font-size="26" font-weight="700" letter-spacing="2">DIVISION TRICKS</text>
+  <text x="88" y="250" fill="white" font-family="Arial, Helvetica, sans-serif" font-size="66" font-weight="700">Smarter Division</text>
+  <text x="88" y="324" fill="white" font-family="Arial, Helvetica, sans-serif" font-size="66" font-weight="700">for Mental Math</text>
+  <text x="88" y="402" fill="#E5E7EB" font-family="Arial, Helvetica, sans-serif" font-size="30" font-weight="400">Shortcuts, remainder checks, and faster estimation methods</text>
+  <text x="88" y="470" fill="#A5F3FC" font-family="Arial, Helvetica, sans-serif" font-size="24" font-weight="700">Useful for practice and exam speed</text>
+</svg>

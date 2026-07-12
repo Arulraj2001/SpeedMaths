@@ -2,12 +2,13 @@ import React from "react";
 import { Sparkles, Target, Compass, Mail } from "lucide-react";
 import { Card } from "@/components/ui/card";
 import { Metadata } from "next";
+import { SITE_URL } from "@/lib/seo";
 
 export const metadata: Metadata = {
-  title: "About Us - SpeedMaths Platform",
-  description: "Learn about the mission, vision, learning philosophy, and core team behind the SpeedMaths mental arithmetic training platform.",
+  title: "About SpeedMaths",
+  description: "Learn how SpeedMaths helps students build mental arithmetic speed with clear methods, daily practice, and free learning tools.",
   alternates: {
-    canonical: "https://speedmaths.com/about"
+    canonical: `${SITE_URL}/about`
   }
 };
 
@@ -16,8 +17,8 @@ export default function AboutPage() {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
     "itemListElement": [
-      { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://speedmaths.com" },
-      { "@type": "ListItem", "position": 2, "name": "About Us", "item": "https://speedmaths.com/about" }
+      { "@type": "ListItem", "position": 1, "name": "Home", "item": `${SITE_URL}` },
+      { "@type": "ListItem", "position": 2, "name": "About SpeedMaths", "item": `${SITE_URL}/about` }
     ]
   };
 

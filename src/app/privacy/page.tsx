@@ -2,12 +2,13 @@ import React from "react";
 import { ShieldCheck, FileText } from "lucide-react";
 import { Card } from "@/components/ui/card";
 import { Metadata } from "next";
+import { SITE_URL } from "@/lib/seo";
 
 export const metadata: Metadata = {
   title: "Privacy Policy - SpeedMaths Platform",
   description: "Read the Privacy Policy for SpeedMaths. Learn how we handle LocalStorage variables, cookies, tracking logs, and third-party advertising scripts.",
   alternates: {
-    canonical: "https://speedmaths.com/privacy"
+    canonical: `${SITE_URL}/privacy`
   }
 };
 
@@ -16,8 +17,8 @@ export default function PrivacyPage() {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
     "itemListElement": [
-      { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://speedmaths.com" },
-      { "@type": "ListItem", "position": 2, "name": "Privacy Policy", "item": "https://speedmaths.com/privacy" }
+      { "@type": "ListItem", "position": 1, "name": "Home", "item": `${SITE_URL}` },
+      { "@type": "ListItem", "position": 2, "name": "Privacy Policy", "item": `${SITE_URL}/privacy` }
     ]
   };
 

@@ -1,0 +1,23 @@
+<svg width="1200" height="630" viewBox="0 0 1200 630" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1200" y2="630" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#0F172A"/>
+      <stop offset="0.55" stop-color="#312E81"/>
+      <stop offset="1" stop-color="#0F766E"/>
+    </linearGradient>
+    <linearGradient id="accent" x1="120" y1="110" x2="500" y2="500" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#A78BFA"/>
+      <stop offset="1" stop-color="#22D3EE"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="630" rx="48" fill="url(#bg)"/>
+  <circle cx="1030" cy="110" r="180" fill="#FFFFFF" fill-opacity="0.06"/>
+  <circle cx="118" cy="538" r="170" fill="#22D3EE" fill-opacity="0.10"/>
+  <path d="M78 100C78 78.4609 95.4609 61 117 61H227C248.539 61 266 78.4609 266 100V210C266 231.539 248.539 249 227 249H117C95.4609 249 78 231.539 78 210V100Z" fill="white" fill-opacity="0.10"/>
+  <path d="M124 160C124 136.804 142.804 118 166 118C189.196 118 208 136.804 208 160C208 183.196 189.196 202 166 202C142.804 202 124 183.196 124 160Z" fill="url(#accent)"/>
+  <path d="M121 161L153 161L153 129L178 129L178 161L210 161L210 186L178 186L178 218L153 218L153 186L121 186L121 161Z" fill="white" fill-opacity="0.95"/>
+  <text x="320" y="230" fill="white" font-family="Arial, Helvetica, sans-serif" font-size="76" font-weight="700">SpeedMaths</text>
+  <text x="320" y="302" fill="#D1D5DB" font-family="Arial, Helvetica, sans-serif" font-size="34" font-weight="400">Free mental math training platform</text>
+  <text x="320" y="360" fill="#E5E7EB" font-family="Arial, Helvetica, sans-serif" font-size="28" font-weight="400">Practice tables, squares, fractions, powers, and blog guides</text>
+  <text x="320" y="430" fill="#A5B4FC" font-family="Arial, Helvetica, sans-serif" font-size="24" font-weight="700">Timed drills • Learning paths • Progress tracking</text>
+</svg>

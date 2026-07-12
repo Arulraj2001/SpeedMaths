@@ -7,23 +7,26 @@ import { Button } from "@/components/ui/button";
 import { AdSensePlaceholder } from "@/components/adsense-placeholder";
 import { articles } from "@/data/blog";
 import { Metadata } from "next";
+import { absoluteUrl, SITE_URL, buildBreadcrumbSchema } from "@/lib/seo";
 
 export const metadata: Metadata = {
-  title: "Mental Math Tips and Tricks — Free Guides for Students and Exam Preparation",
+  title: "Mental Math Tips and Tricks for Students",
   description: "Step-by-step guides on mental multiplication, division shortcuts, percentage tricks, Vedic Maths techniques, and exam calculation strategies. Written for students preparing for SAT, GRE, GMAT, CAT, and banking exams.",
   alternates: {
-    canonical: "https://speedmaths.com/blog",
+    canonical: `${SITE_URL}/blog`,
   },
   openGraph: {
-    title: "Mental Math Tips and Tricks — Free Guides for Students",
+    title: "Mental Math Tips and Tricks for Students",
     description: "Step-by-step guides on mental multiplication, division shortcuts, percentage tricks, Vedic Maths techniques, and exam calculation strategies.",
-    url: "https://speedmaths.com/blog",
+    url: `${SITE_URL}/blog`,
     type: "website",
+    images: [absoluteUrl("/og/blog.svg")],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Mental Math Tips and Tricks — Free Guides for Students",
+    title: "Mental Math Tips and Tricks for Students",
     description: "Step-by-step guides on mental multiplication, division shortcuts, percentage tricks, Vedic Maths, and exam strategies.",
+    images: [absoluteUrl("/og/blog.svg")],
   }
 };
 
@@ -31,21 +34,23 @@ export default function BlogIndexPage() {
   // JSON-LD BreadcrumbList Schema
   const jsonLd = {
     "@context": "https://schema.org",
-    "@type": "BreadcrumbList",
-    "itemListElement": [
-      {
+    "@type": "CollectionPage",
+    name: "Mental Math Tips and Tricks for Students",
+    description: "Step-by-step guides on mental multiplication, division shortcuts, percentage tricks, and exam calculation strategies.",
+    url: `${SITE_URL}/blog`,
+    mainEntity: {
+      "@type": "ItemList",
+      itemListElement: articles.map((article, index) => ({
         "@type": "ListItem",
-        "position": 1,
-        "name": "Home",
-        "item": "https://speedmaths.com"
-      },
-      {
-        "@type": "ListItem",
-        "position": 2,
-        "name": "Blog",
-        "item": "https://speedmaths.com/blog"
-      }
-    ]
+        position: index + 1,
+        url: `${SITE_URL}/blog/${article.slug}`,
+        name: article.title,
+      })),
+    },
+    breadcrumb: buildBreadcrumbSchema([
+      { name: "Home", url: "/" },
+      { name: "Blog", url: "/blog" },
+    ]),
   };
 
   return (

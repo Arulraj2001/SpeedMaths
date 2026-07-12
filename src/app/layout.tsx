@@ -9,6 +9,7 @@ import { PwaRegister } from "@/components/pwa-register";
 import { GoogleAnalytics } from "@/components/google-analytics";
 import { MicrosoftClarity } from "@/components/microsoft-clarity";
 import { MobileStickyAd } from "@/components/mobile-sticky-ad";
+import { buildOrganizationSchema, buildWebSiteSchema, SITE_DESCRIPTION, SITE_NAME, SITE_URL } from "@/lib/seo";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -20,16 +21,14 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
-const BASE_URL = "https://speedmaths.com";
+const BASE_URL = SITE_URL;
 
 export const metadata: Metadata = {
   metadataBase: new URL(BASE_URL),
   title: {
     default: "SpeedMaths — Free Mental Math Training Platform",
-    template: "%s | SpeedMaths",
   },
-  description:
-    "Master mental arithmetic with free interactive drills. Practice multiplication tables, squares, cubes, fractions, powers, and number types. Track progress with analytics dashboards.",
+  description: SITE_DESCRIPTION,
   manifest: "/manifest.json",
   alternates: {
     canonical: BASE_URL,
@@ -41,35 +40,15 @@ export const metadata: Metadata = {
     type: "website",
     locale: "en_US",
     url: BASE_URL,
-    siteName: "SpeedMaths",
+    siteName: SITE_NAME,
     title: "SpeedMaths — Free Mental Math Training Platform",
-    description:
-      "Master mental arithmetic with free interactive drills. Practice multiplication tables, squares, cubes, fractions, powers, and number types.",
+    description: SITE_DESCRIPTION,
   },
   twitter: {
     card: "summary_large_image",
     title: "SpeedMaths — Free Mental Math Training Platform",
-    description:
-      "Master mental arithmetic with free interactive drills. Practice multiplication tables, squares, cubes, fractions, and powers.",
+    description: SITE_DESCRIPTION,
   },
-  robots: {
-    index: true,
-    follow: true,
-    googleBot: {
-      index: true,
-      follow: true,
-      "max-video-preview": -1,
-      "max-image-preview": "large",
-      "max-snippet": -1,
-    },
-  },
-  verification: {
-    google: "m8GlcWW56jbrY438cEneNp0L7mvnjYJO28V5pSDF5AM",
-    other: {
-      "msvalidate.01": "BING_WEBMASTER_VERIFICATION_ID",
-    },
-  },
-  category: "education",
 };
 
 export default function RootLayout({
@@ -80,23 +59,17 @@ export default function RootLayout({
   const websiteSchema = {
     "@context": "https://schema.org",
     "@type": "WebSite",
-    name: "SpeedMaths",
+    name: SITE_NAME,
     url: BASE_URL,
-    description:
-      "Free mental arithmetic training platform with interactive drills, analytics dashboards, and printable reference sheets.",
-    potentialAction: {
-      "@type": "SearchAction",
-      target: `${BASE_URL}/faq?q={search_term_string}`,
-      "query-input": "required name=search_term_string",
-    },
+    description: SITE_DESCRIPTION,
   };
 
   const organizationSchema = {
     "@context": "https://schema.org",
     "@type": "Organization",
-    name: "SpeedMaths",
+    name: SITE_NAME,
     url: BASE_URL,
-    logo: `${BASE_URL}/icon-512.png`,
+    logo: `${BASE_URL}/globe.svg`,
     sameAs: ["https://github.com/Arulraj2001/SpeedMaths"],
     contactPoint: {
       "@type": "ContactPoint",
@@ -115,7 +88,7 @@ export default function RootLayout({
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
-            __html: JSON.stringify([websiteSchema, organizationSchema]),
+            __html: JSON.stringify([buildWebSiteSchema(), buildOrganizationSchema()]),
           }}
         />
       </head>

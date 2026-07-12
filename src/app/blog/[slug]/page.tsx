@@ -1,11 +1,59 @@
 import React from "react";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { Calendar, Clock, ArrowLeft, ArrowRight, HelpCircle } from "lucide-react";
+import { Calendar, Clock, ArrowLeft, ArrowRight, HelpCircle, BadgeCheck } from "lucide-react";
 import { Card } from "@/components/ui/card";
 import { AdSensePlaceholder } from "@/components/adsense-placeholder";
 import { articles } from "@/data/blog";
 import { Metadata } from "next";
+import { absoluteUrl, SITE_URL, buildArticleSchema, buildBreadcrumbSchema, toIsoDate } from "@/lib/seo";
+
+const ARTICLE_AUTHOR = "SpeedMaths Editorial Team";
+
+function getArticleImage(slug: string) {
+  return absoluteUrl(`/og/articles/${slug}.svg`);
+}
+
+function getInternalLinks(slug: string) {
+  const linkMap: Record<string, Array<{ href: string; label: string; description: string }>> = {
+    "mental-math-tricks": [
+      { href: "/practice", label: "Practice mental math", description: "Start timed drills for speed and accuracy." },
+      { href: "/tables", label: "Times tables reference", description: "Reinforce the number facts used in mental arithmetic." },
+      { href: "/fractions", label: "Fractions to decimals chart", description: "Use benchmark fractions to calculate percentages faster." },
+    ],
+    "multiplication-tricks": [
+      { href: "/practice", label: "Practice multiplication", description: "Apply shortcut methods in a timed practice session." },
+      { href: "/tables", label: "Times tables reference", description: "Build the multiplication facts behind the shortcuts." },
+      { href: "/squares", label: "Squares reference", description: "Support cross-multiplication and difference-of-squares tricks." },
+    ],
+    "vedic-maths": [
+      { href: "/practice", label: "Practice Vedic-style drills", description: "Use the drill engine to repeat the same arithmetic patterns." },
+      { href: "/tables", label: "Times tables reference", description: "Strengthen the foundations behind Vedic methods." },
+      { href: "/squares", label: "Squares reference", description: "Speed up squaring and difference-based techniques." },
+    ],
+    "percentage-tricks": [
+      { href: "/practice", label: "Practice percentages", description: "Turn percentage shortcuts into quick recall." },
+      { href: "/fractions", label: "Fractions and decimals", description: "Use benchmarks like 1/8 and 1/4 for fast mental conversions." },
+      { href: "/powers", label: "Powers and exponents", description: "Review multiplication patterns that show up in percentage growth." },
+    ],
+    "division-tricks": [
+      { href: "/practice", label: "Practice division", description: "Reinforce long-division shortcuts with timed drills." },
+      { href: "/tables", label: "Times tables reference", description: "Division gets faster when multiplication facts are automatic." },
+      { href: "/fractions", label: "Fractions to decimals chart", description: "Use fraction knowledge to estimate quotients." },
+    ],
+    "number-types": [
+      { href: "/practice", label: "Practice number recognition", description: "Apply number-type checks during drills and review." },
+      { href: "/learn/number-types", label: "Number types guide", description: "Review primes, composites, and special number classes." },
+      { href: "/tables", label: "Times tables reference", description: "Use multiplication facts to test divisibility quickly." },
+    ],
+  };
+
+  return linkMap[slug] || [
+    { href: "/practice", label: "Practice now", description: "Put the ideas from this article into use immediately." },
+    { href: "/blog", label: "Browse more guides", description: "Read the other mental math tutorials and shortcuts." },
+    { href: "/faq", label: "Read the FAQ", description: "Find answers to common questions about the platform." },
+  ];
+}
 
 interface Props {
   params: Promise<{ slug: string }>;
@@ -25,21 +73,21 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   if (!article) return {};
 
   return {
-    title: `${article.title} - SpeedMaths`,
+    title: article.title,
     description: article.description,
     alternates: {
-      canonical: `https://speedmaths.com/blog/${slug}`,
+      canonical: `${SITE_URL}/blog/${slug}`,
     },
     openGraph: {
-      title: `${article.title} - SpeedMaths`,
+      title: article.title,
       description: article.description,
-      url: `https://speedmaths.com/blog/${slug}`,
+      url: `${SITE_URL}/blog/${slug}`,
       type: "article",
-      publishedTime: article.publishedDate,
-      authors: ["SpeedMaths Team"],
+      publishedTime: toIsoDate(article.publishedDate),
+      authors: [ARTICLE_AUTHOR],
       images: [
         {
-          url: "https://img.icons8.com/color/512/brain.png",
+          url: getArticleImage(slug),
           width: 512,
           height: 512,
           alt: article.title,
@@ -48,9 +96,9 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     },
     twitter: {
       card: "summary_large_image",
-      title: `${article.title} - SpeedMaths`,
+      title: article.title,
       description: article.description,
-      images: ["https://img.icons8.com/color/512/brain.png"],
+      images: [getArticleImage(slug)],
     }
   };
 }
@@ -68,7 +116,7 @@ function renderMarkdown(content: string) {
   const flushList = (key: string | number) => {
     if (currentList.length > 0) {
       elements.push(
-        <ul key={`ul-${key}`} className="list-disc list-outside space-y-2.5 py-3 pl-6 text-foreground/80 dark:text-neutral-300 text-sm md:text-base leading-relaxed my-4">
+        <ul key={`ul-${key}`} className="list-disc list-outside space-y-2.5 py-3 pl-6 text-slate-900 dark:text-neutral-200 text-sm md:text-base leading-relaxed my-4">
           {currentList.map((item, idx) => (
             <li key={idx} dangerouslySetInnerHTML={{ __html: formatInlineMath(item) }} />
           ))}
@@ -98,7 +146,7 @@ function renderMarkdown(content: string) {
               {dataRows.map((row, rIdx) => (
                 <tr key={rIdx} className="hover:bg-secondary/20 transition-colors">
                   {row.map((col, cIdx) => (
-                    <td key={cIdx} className="p-3 text-muted-foreground whitespace-nowrap" dangerouslySetInnerHTML={{ __html: formatInlineMath(col) }} />
+                    <td key={cIdx} className="p-3 text-slate-900 dark:text-neutral-200 whitespace-nowrap" dangerouslySetInnerHTML={{ __html: formatInlineMath(col) }} />
                   ))}
                 </tr>
               ))}
@@ -174,9 +222,9 @@ function renderMarkdown(content: string) {
     // 5. Handle Paragraphs
     if (trimmed) {
       elements.push(
-        <p 
+          <p 
           key={index} 
-          className="text-base text-foreground/80 dark:text-neutral-300 leading-relaxed my-5 font-sans" 
+          className="text-base text-slate-900 dark:text-neutral-200 leading-relaxed my-5 font-sans" 
           dangerouslySetInnerHTML={{ __html: formatInlineMath(trimmed) }}
         />
       );
@@ -224,14 +272,14 @@ function formatInlineMath(text: string): string {
     );
 
     // Replace \text{...}
-    result = result.replace(/\\text\{(.*?)\}/g, '<span class="font-sans font-normal text-muted-foreground">$1</span>');
+    result = result.replace(/\\text\{(.*?)\}/g, '<span class="font-sans font-normal text-slate-700 dark:text-neutral-300">$1</span>');
 
     return result;
   };
 
   // Replace $$...$$ math block with center-aligned, larger font blocks
   formatted = formatted.replace(/\$\$(.*?)\$\$/g, (_, math) => {
-    return `<div class="my-6 text-center font-mono text-base md:text-lg text-primary bg-secondary/25 border border-border/20 p-4 rounded-xl py-3 px-4 shadow-inner leading-relaxed overflow-x-auto flex justify-center items-center flex-wrap">${parseMath(math)}</div>`;
+    return `<span class="my-6 block text-center font-mono text-base md:text-lg text-primary bg-secondary/25 border border-border/20 p-4 rounded-xl py-3 px-4 shadow-inner leading-relaxed overflow-x-auto">${parseMath(math)}</span>`;
   });
 
   // Replace $...$ inline math block with styled code inline snippets
@@ -248,25 +296,19 @@ export default async function ArticleDetailPage({ params }: Props) {
   if (!article) return notFound();
 
   // JSON-LD Schemas (Breadcrumbs, Article, FAQs)
-  const breadcrumbJson = {
-    "@context": "https://schema.org",
-    "@type": "BreadcrumbList",
-    "itemListElement": [
-      { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://speedmaths.com" },
-      { "@type": "ListItem", "position": 2, "name": "Blog", "item": "https://speedmaths.com/blog" },
-      { "@type": "ListItem", "position": 3, "name": article.title, "item": `https://speedmaths.com/blog/${slug}` }
-    ]
-  };
+  const breadcrumbJson = buildBreadcrumbSchema([
+    { name: "Home", url: "/" },
+    { name: "Blog", url: "/blog" },
+    { name: article.title, url: `/blog/${slug}` },
+  ]);
 
-  const articleJson = {
-    "@context": "https://schema.org",
-    "@type": "NewsArticle",
-    "headline": article.title,
-    "description": article.description,
-    "datePublished": "2026-07-11T12:00:00Z",
-    "author": { "@type": "Organization", "name": "SpeedMaths" },
-    "image": "https://img.icons8.com/color/512/brain.png"
-  };
+  const articleJson = buildArticleSchema({
+    title: article.title,
+    description: article.description,
+    url: `/blog/${slug}`,
+    publishedDate: article.publishedDate,
+    authorName: ARTICLE_AUTHOR,
+  });
 
   const faqJson = {
     "@context": "https://schema.org",
@@ -278,6 +320,7 @@ export default async function ArticleDetailPage({ params }: Props) {
     }))
   };
 
+  const internalLinks = getInternalLinks(slug);
   const relatedArticles = articles.filter(a => article.related.includes(a.slug));
 
   return (
@@ -305,6 +348,13 @@ export default async function ArticleDetailPage({ params }: Props) {
         <h1 className="text-3xl md:text-4xl font-extrabold tracking-tight leading-tight">
           {article.title}
         </h1>
+        <div className="flex flex-wrap items-center gap-2 text-xs sm:text-sm text-muted-foreground">
+          <span className="inline-flex items-center gap-1.5 rounded-full border border-primary/15 bg-primary/5 px-3 py-1 font-semibold text-foreground/90">
+            <BadgeCheck className="h-3.5 w-3.5 text-primary" />
+            By {ARTICLE_AUTHOR}
+          </span>
+          <span className="text-muted-foreground">Reviewed for clarity and accuracy.</span>
+        </div>
         <div className="flex flex-wrap items-center gap-4 text-xs text-muted-foreground">
           <div className="flex items-center gap-1">
             <Calendar className="h-4 w-4" />
@@ -318,12 +368,38 @@ export default async function ArticleDetailPage({ params }: Props) {
       </div>
 
       {/* Body content */}
-      <div className="prose prose-invert max-w-none">
+      <div className="max-w-none text-slate-900 dark:text-neutral-200">
         {renderMarkdown(article.content)}
       </div>
 
       {/* Between Content Ad */}
       <AdSensePlaceholder slot="2222222222" format="auto" />
+
+      {/* Internal links */}
+      <section className="space-y-4 pt-8 border-t border-border/20">
+        <div className="space-y-1">
+          <span className="block text-xs font-bold uppercase tracking-wider text-muted-foreground">
+            Continue Learning
+          </span>
+          <h2 className="text-xl md:text-2xl font-extrabold text-foreground tracking-tight">
+            Useful next steps
+          </h2>
+        </div>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          {internalLinks.map((item) => (
+            <Link key={item.href} href={item.href}>
+              <div className="h-full rounded-xl border border-border bg-secondary/10 hover:bg-secondary/30 transition-all p-4 flex flex-col gap-2 cursor-pointer">
+                <span className="font-bold text-foreground leading-tight">{item.label}</span>
+                <span className="text-xs md:text-sm text-muted-foreground leading-relaxed">{item.description}</span>
+                <span className="mt-auto inline-flex items-center gap-1 text-xs font-semibold text-primary pt-2">
+                  Open page
+                  <ArrowRight className="h-3.5 w-3.5" />
+                </span>
+              </div>
+            </Link>
+          ))}
+        </div>
+      </section>
 
       {/* FAQs list accordion layout */}
       <Card className="glassmorphism border-border/40 p-6 space-y-4 mt-12">

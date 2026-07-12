@@ -16,6 +16,14 @@ interface AdSensePlaceholderProps {
 }
 
 export function AdSensePlaceholder({ slot, format = "auto", className }: AdSensePlaceholderProps) {
+  const formatHeightClasses = {
+    auto: "min-h-[260px] md:min-h-[250px]",
+    fluid: "min-h-[250px]",
+    rectangle: "min-h-[280px] md:min-h-[250px]",
+    horizontal: "min-h-[100px] md:min-h-[90px]",
+    vertical: "min-h-[600px] md:min-h-[600px]",
+  };
+
   useEffect(() => {
     try {
       (window.adsbygoogle = window.adsbygoogle || []).push({});
@@ -26,7 +34,8 @@ export function AdSensePlaceholder({ slot, format = "auto", className }: AdSense
 
   return (
     <div className={cn(
-      "my-6 p-4 border border-dashed border-border/80 rounded-xl bg-secondary/10 flex flex-col items-center justify-center min-h-[90px] text-center print:hidden select-none",
+      "my-6 p-4 border border-dashed border-border/80 rounded-xl bg-secondary/10 flex flex-col items-center justify-center w-full text-center print:hidden select-none",
+      formatHeightClasses[format],
       className
     )}>
       <span className="text-[9px] uppercase font-bold tracking-widest text-muted-foreground/80">Advertisement Area</span>

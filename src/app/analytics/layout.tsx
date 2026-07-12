@@ -1,17 +1,18 @@
 import { Metadata } from "next";
+import { SITE_URL } from "@/lib/seo";
 
 export const metadata: Metadata = {
-  title: "Analytics Dashboard — Track Your Math Progress",
+  title: "Math Practice Analytics",
   description:
-    "View your practice statistics, accuracy charts, streak history, XP levels, achievement badges, and a GitHub-style consistency heatmap. All data stored locally.",
+    "View your practice statistics, streak history, achievement badges, and consistency charts. All data stays in your browser.",
   alternates: {
-    canonical: "https://speedmaths.com/analytics",
+    canonical: `${SITE_URL}/analytics`,
   },
   openGraph: {
-    title: "Analytics Dashboard — Track Your Math Progress",
+    title: "Math Practice Analytics",
     description:
-      "Interactive charts showing your mental math accuracy, speed trends, topic mastery, and daily consistency heatmap.",
-    url: "https://speedmaths.com/analytics",
+      "Interactive charts showing mental math accuracy, speed trends, topic mastery, and daily consistency.",
+    url: `${SITE_URL}/analytics`,
   },
 };
 

@@ -1,7 +1,8 @@
 import { articles } from "@/data/blog";
+import { SITE_URL } from "@/lib/seo";
 
 export async function GET() {
-  const baseUrl = "https://speedmaths.com";
+  const baseUrl = SITE_URL;
 
   const rssItemsXml = articles
     .map((article) => {

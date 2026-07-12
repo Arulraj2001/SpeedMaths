@@ -9,7 +9,7 @@ export function PwaRegister() {
       "serviceWorker" in navigator &&
       process.env.NODE_ENV === "production"
     ) {
-      window.addEventListener("load", () => {
+      const registerServiceWorker = () => {
         navigator.serviceWorker
           .register("/sw.js")
           .then((reg) => {
@@ -18,7 +18,13 @@ export function PwaRegister() {
           .catch((err) => {
             console.error("SpeedMaths PWA Service Worker registration failures:", err);
           });
-      });
+      };
+
+      if ("requestIdleCallback" in window) {
+        window.requestIdleCallback(registerServiceWorker, { timeout: 4000 });
+      } else {
+        window.addEventListener("load", registerServiceWorker, { once: true });
+      }
     }
   }, []);
 

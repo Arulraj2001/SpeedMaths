@@ -6,7 +6,6 @@ import { Sparkles, Search, Moon, Sun, Menu, X, ArrowRight } from "lucide-react";
 import { Button } from "../ui/button";
 import { CommandPalette } from "../ui/command-palette";
 import { useTheme } from "next-themes";
-import { motion, AnimatePresence } from "framer-motion";
 
 export function Navbar() {
   const [isCommandOpen, setIsCommandOpen] = useState(false);
@@ -160,40 +159,33 @@ export function Navbar() {
       </div>
 
       {/* Mobile Drawer Navigation */}
-      <AnimatePresence>
-        {isMobileMenuOpen && (
-          <motion.div
-            initial={{ opacity: 0, height: 0 }}
-            animate={{ opacity: 1, height: "auto" }}
-            exit={{ opacity: 0, height: 0 }}
-            className="md:hidden border-t border-border/50 bg-background/95 backdrop-blur-md overflow-hidden"
-          >
-            <div className="space-y-1.5 px-4 py-4">
-              {navLinks.map((link) => (
-                <Link
-                  key={link.href}
-                  href={link.href}
-                  onClick={() => setIsMobileMenuOpen(false)}
-                  className="block rounded-lg px-3 py-2.5 text-base font-semibold text-muted-foreground hover:bg-secondary hover:text-foreground transition-colors"
+      {isMobileMenuOpen && (
+        <div className="md:hidden border-t border-border/50 bg-background/95 backdrop-blur-md overflow-hidden">
+          <div className="space-y-1.5 px-4 py-4">
+            {navLinks.map((link) => (
+              <Link
+                key={link.href}
+                href={link.href}
+                onClick={() => setIsMobileMenuOpen(false)}
+                className="block rounded-lg px-3 py-2.5 text-base font-semibold text-muted-foreground hover:bg-secondary hover:text-foreground transition-colors"
+              >
+                {link.label}
+              </Link>
+            ))}
+            <div className="pt-4 border-t border-border/50">
+              <Link href="/practice" onClick={() => setIsMobileMenuOpen(false)}>
+                <Button
+                  variant="premium"
+                  className="w-full"
+                  rightIcon={<ArrowRight className="h-4 w-4" />}
                 >
-                  {link.label}
-                </Link>
-              ))}
-              <div className="pt-4 border-t border-border/50">
-                <Link href="/practice" onClick={() => setIsMobileMenuOpen(false)}>
-                  <Button
-                    variant="premium"
-                    className="w-full"
-                    rightIcon={<ArrowRight className="h-4 w-4" />}
-                  >
-                    Start Practice
-                  </Button>
-                </Link>
-              </div>
+                  Start Practice
+                </Button>
+              </Link>
             </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
+          </div>
+        </div>
+      )}
 
       {/* Command Palette */}
       <CommandPalette

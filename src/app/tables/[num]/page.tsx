@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button";
 import { TimesTableActions } from "@/components/times-table-actions";
 import { AdSensePlaceholder } from "@/components/adsense-placeholder";
 import { Metadata } from "next";
+import { SITE_URL } from "@/lib/seo";
 
 interface Props {
   params: Promise<{ num: string }>;
@@ -29,7 +30,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     title: `${val} Times Table (Up to ${val} × 20) - Multiplication Guide`,
     description: `Learn the multiplication table of ${val} from ${val} × 1 to ${val} × 20. Access print layouts, audio triggers, and quick calculations guides.`,
     alternates: {
-      canonical: `https://speedmaths.com/tables/${num}`,
+      canonical: `${SITE_URL}/tables/${num}`,
     }
   };
 }
@@ -60,9 +61,9 @@ export default async function TimesTableDetailPage({ params }: Props) {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
     "itemListElement": [
-      { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://speedmaths.com" },
-      { "@type": "ListItem", "position": 2, "name": "Tables", "item": "https://speedmaths.com/tables" },
-      { "@type": "ListItem", "position": 3, "name": `${n} Times Table`, "item": `https://speedmaths.com/tables/${num}` }
+      { "@type": "ListItem", "position": 1, "name": "Home", "item": `${SITE_URL}` },
+      { "@type": "ListItem", "position": 2, "name": "Tables", "item": `${SITE_URL}/tables` },
+      { "@type": "ListItem", "position": 3, "name": `${n} Times Table`, "item": `${SITE_URL}/tables/${num}` }
     ]
   };
 

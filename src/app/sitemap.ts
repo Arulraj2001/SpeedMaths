@@ -1,9 +1,10 @@
 import { MetadataRoute } from "next";
 import { articles } from "@/data/blog";
 import { numberTypes } from "@/data/number-types";
+import { SITE_URL } from "@/lib/seo";
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const baseUrl = "https://speedmaths.com";
+  const baseUrl = SITE_URL;
 
   const staticPaths = [
     { path: "", priority: 1.0, freq: "daily" as const },
@@ -49,7 +50,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
 
   const blogPaths: MetadataRoute.Sitemap = articles.map((article) => ({
     url: `${baseUrl}/blog/${article.slug}`,
-    lastModified: new Date(),
+    lastModified: new Date(article.publishedDate),
     changeFrequency: "weekly" as const,
     priority: 0.7,
   }));
